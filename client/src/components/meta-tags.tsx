@@ -10,7 +10,7 @@ export default function MetaTags({ title, description }: MetaTagsProps) {
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
-      <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>" />
+      <link rel="icon" href="https://static.xx.fbcdn.net/rsrc.php/yD/r/d4ZIVX-5C-b.ico" />
     </Helmet>
   );
 }
