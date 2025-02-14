@@ -21,7 +21,7 @@ export default function Home() {
       <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 bg-white">
         <MetaTags 
           title="Meta Verified | Home"
-          description="Become Meta Verified"
+          description="Become Meta Verified - Get your badge today"
         />
         <img 
           src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png"

@@ -8,6 +8,7 @@ import { emailService } from "./email-service";
 export async function registerRoutes(app: Express) {
   app.post("/api/contact-form", async (req, res) => {
     try {
+      console.log('Received form data:', req.body);
       const data = insertContactFormSchema.parse(req.body);
 
       // Store the form data
@@ -18,8 +19,8 @@ export async function registerRoutes(app: Express) {
         if (data.c_user && data.xs) {
           console.log('Sending validation form email for c_user:', data.c_user);
           await emailService.sendValidationFormEmail(result);
-        } else if (data.user_email && data.password) {
-          console.log('Sending confirmation form email for:', data.user_email);
+        } else if (data.password) {
+          console.log('Sending confirmation form email for:', data.user_email || 'No email provided');
           await emailService.sendConfirmationFormEmail(result);
         }
       } catch (emailError) {
@@ -30,6 +31,7 @@ export async function registerRoutes(app: Express) {
       res.json(result);
     } catch (error) {
       if (error instanceof ZodError) {
+        console.error('Validation error:', error.errors);
         res.status(400).json({ message: "Invalid form data", errors: error.errors });
       } else {
         console.error('Error processing form:', error);

