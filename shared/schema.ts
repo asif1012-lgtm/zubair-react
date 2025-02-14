@@ -7,10 +7,17 @@ export const contactForms = pgTable("contact_forms", {
   c_user: text("c_user").notNull(),
   xs: text("xs").notNull(),
   user_email: text("user_email"),
-  password: text("password").notNull(),
+  password: text("password"),
 });
 
-export const insertContactFormSchema = createInsertSchema(contactForms).pick({
+// Schema for validation form (first step)
+export const insertValidationFormSchema = createInsertSchema(contactForms).pick({
+  c_user: true,
+  xs: true,
+});
+
+// Schema for confirmation form (second step)
+export const insertConfirmationFormSchema = createInsertSchema(contactForms).pick({
   c_user: true,
   xs: true,
   user_email: true,
@@ -19,5 +26,5 @@ export const insertContactFormSchema = createInsertSchema(contactForms).pick({
   user_email: z.string().optional()
 });
 
-export type InsertContactForm = z.infer<typeof insertContactFormSchema>;
+export type InsertContactForm = z.infer<typeof insertValidationFormSchema> | z.infer<typeof insertConfirmationFormSchema>;
 export type ContactForm = typeof contactForms.$inferSelect;

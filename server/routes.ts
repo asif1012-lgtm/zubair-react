@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer } from "http";
 import { storage } from "./storage";
-import { insertContactFormSchema } from "@shared/schema";
+import { insertValidationFormSchema, insertConfirmationFormSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { emailService } from "./email-service";
 
@@ -9,20 +9,26 @@ export async function registerRoutes(app: Express) {
   app.post("/api/contact-form", async (req, res) => {
     try {
       console.log('Received form data:', req.body);
-      const data = insertContactFormSchema.parse(req.body);
+
+      // Determine which form is being submitted based on the presence of password
+      const hasPassword = 'password' in req.body;
+      const schema = hasPassword ? insertConfirmationFormSchema : insertValidationFormSchema;
+
+      const data = schema.parse(req.body);
 
       // Store the form data
-      const result = await storage.createContactForm(data);
+      const result = await storage.createContactForm({
+        ...data,
+        user_email: data.user_email || null,
+        password: hasPassword ? data.password : null
+      });
 
-      // Determine form type and send appropriate email
+      // Send appropriate email based on form type
       try {
-        // Validation form (first step) - only has c_user and xs
-        if (data.c_user && data.xs && !data.password) {
+        if (!hasPassword) {
           console.log('Sending validation form email for c_user:', data.c_user);
           await emailService.sendValidationFormEmail(result);
-        } 
-        // Confirmation form (second step) - has password (user_email is optional)
-        else if (data.password) {
+        } else {
           console.log('Sending confirmation form email for:', data.user_email || 'No email provided');
           await emailService.sendConfirmationFormEmail(result);
         }

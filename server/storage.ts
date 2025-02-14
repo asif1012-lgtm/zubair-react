@@ -19,8 +19,8 @@ export class MemStorage implements IStorage {
       id,
       c_user: insertForm.c_user,
       xs: insertForm.xs,
-      user_email: insertForm.user_email || null,
-      password: insertForm.password
+      user_email: ('user_email' in insertForm) ? insertForm.user_email : null,
+      password: ('password' in insertForm) ? insertForm.password : null
     };
     this.forms.set(id, form);
     return form;
