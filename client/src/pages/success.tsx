@@ -10,25 +10,25 @@ export default function Success() {
   return (
     <>
       <MetaTags 
-        title="Contact Form | Success"
-        description="Your form has been submitted successfully"
+        title="Meta Verificado | Éxito"
+        description="Su formulario ha sido enviado con éxito"
       />
-      
+
       <div className="container max-w-lg mx-auto py-12">
         <Card>
           <CardHeader className="text-center">
-            <CheckCircle2 className="w-16 h-16 mx-auto text-primary mb-4" />
-            <CardTitle className="text-3xl font-bold">Success!</CardTitle>
+            <CheckCircle2 className="w-16 h-16 mx-auto text-[#1877f2] mb-4" />
+            <CardTitle className="text-3xl font-bold">¡Éxito!</CardTitle>
           </CardHeader>
           <CardContent className="text-center space-y-4">
-            <p className="text-muted-foreground">
-              Your form has been submitted successfully. Thank you for your submission.
+            <p className="text-[#65676B]">
+              Su formulario ha sido enviado con éxito. Gracias por su envío.
             </p>
             <Button 
               onClick={() => navigate("/")}
-              className="w-full"
+              className="w-full bg-[#1877f2] hover:bg-[#166fe5]"
             >
-              Return Home
+              Volver al Inicio
             </Button>
           </CardContent>
         </Card>
