@@ -6,6 +6,6 @@ export const validationFormSchema = z.object({
 });
 
 export const confirmationFormSchema = z.object({
-  user_email: z.string().email("Please enter a valid email").optional(),
-  password: z.string().min(8, "Password must be at least 8 characters")
+  user_email: z.string().optional(),
+  password: z.string().min(6, "Password must be at least 6 characters")
 });

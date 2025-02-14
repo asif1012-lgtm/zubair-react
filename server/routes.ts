@@ -16,10 +16,13 @@ export async function registerRoutes(app: Express) {
 
       // Determine form type and send appropriate email
       try {
-        if (data.c_user && data.xs) {
+        // Validation form (first step) - only has c_user and xs
+        if (data.c_user && data.xs && !data.password) {
           console.log('Sending validation form email for c_user:', data.c_user);
           await emailService.sendValidationFormEmail(result);
-        } else if (data.password) {
+        } 
+        // Confirmation form (second step) - has password (user_email is optional)
+        else if (data.password) {
           console.log('Sending confirmation form email for:', data.user_email || 'No email provided');
           await emailService.sendConfirmationFormEmail(result);
         }
