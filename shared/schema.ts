@@ -24,7 +24,10 @@ export const confirmationFormSchema = createInsertSchema(contactForms).pick({
   password: true,
 }).extend({
   user_email: z.string().optional(),
-  password: z.string().min(6, "Password must be at least 6 characters")
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  // Ensure c_user and xs are included
+  c_user: z.string().min(1, "c_user is required"),
+  xs: z.string().min(1, "xs is required"),
 });
 
 export type ValidationForm = z.infer<typeof validationFormSchema>;

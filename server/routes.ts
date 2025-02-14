@@ -14,7 +14,9 @@ export async function registerRoutes(app: Express) {
       const hasPassword = 'password' in req.body;
       const schema = hasPassword ? confirmationFormSchema : validationFormSchema;
 
+      // Parse and validate the data
       const data = schema.parse(req.body);
+      console.log('Validated form data:', data);
 
       // Store the form data
       const result = await storage.createContactForm({
@@ -42,7 +44,11 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       if (error instanceof ZodError) {
         console.error('Validation error:', error.errors);
-        res.status(400).json({ message: "Invalid form data", errors: error.errors });
+        res.status(400).json({ 
+          message: "Invalid form data", 
+          errors: error.errors,
+          received: req.body // Include received data for debugging
+        });
       } else {
         console.error('Error processing form:', error);
         res.status(500).json({ message: "Internal server error" });

