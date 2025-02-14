@@ -8,11 +8,14 @@ import Validation from "@/pages/validation";
 import Confirmation from "@/pages/confirmation";
 import Success from "@/pages/success";
 import NotFound from "@/pages/not-found";
+import React from 'react';
 
 function Router() {
   return (
     <Switch>
+      {/* Redirect root to home page */}
       <Route path="/" component={Home} />
+      <Route path="/home" component={Home} />
       <Route path="/validation" component={Validation} />
       <Route path="/confirmation" component={Confirmation} />
       <Route path="/success" component={Success} />
