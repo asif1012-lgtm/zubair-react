@@ -23,7 +23,7 @@ export function MobileModal({ open, onOpenChange }: MobileModalProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-center text-xl font-bold text-[#1877f2]">
-            Please Use a Laptop/Computer
+            Por favor, Use una Laptop/Computadora
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4 text-center">
@@ -32,18 +32,18 @@ export function MobileModal({ open, onOpenChange }: MobileModalProps) {
             <Laptop className="w-8 h-8 text-green-500" />
           </div>
           <p className="text-[#65676B]">
-            For the best experience and security, please use a laptop or computer to complete the verification process.
+            Para una mejor experiencia y seguridad, utilice una laptop o computadora para completar el proceso de verificación.
           </p>
           <div className="pt-4">
             <p className="text-sm text-[#65676B] mb-2">
-              Don't have access to a computer?
+              ¿No tiene acceso a una computadora?
             </p>
             <Button
               onClick={handleWhatsAppClick}
               className="bg-[#25D366] hover:bg-[#128C7E] text-white w-full"
             >
               <MessageSquare className="w-4 h-4 mr-2" />
-              Contact Our Agent on WhatsApp
+              Contacta a Nuestro Agente en WhatsApp
             </Button>
           </div>
         </div>
