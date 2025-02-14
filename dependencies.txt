@@ -1,0 +1,61 @@
+# Application Dependencies
+
+## Frontend Dependencies
+- react: UI library
+- react-dom: React DOM rendering
+- react-hook-form: Form handling and validation
+- @hookform/resolvers: Form validation resolvers
+- zod: Schema validation
+- wouter: Routing
+- @tanstack/react-query: Data fetching and caching
+- lucide-react: Icons
+- react-helmet: Document head management
+- react-icons: Additional icons
+
+## UI Components and Styling
+- tailwindcss: Utility-first CSS framework
+- autoprefixer: CSS prefixing
+- postcss: CSS processing
+- tailwindcss-animate: Tailwind animations
+- @radix-ui/react-dialog: Dialog component
+- @radix-ui/react-select: Select component
+- @radix-ui/react-label: Label component
+- @radix-ui/react-slot: Slot component
+- @radix-ui/react-toast: Toast notifications
+- class-variance-authority: Component variants
+- clsx: Class name utilities
+- tailwind-merge: Tailwind class merging
+
+## Backend Dependencies
+- express: Web framework
+- nodemailer: Email sending
+- @neondatabase/serverless: Database connection
+- drizzle-orm: ORM
+- drizzle-zod: Schema validation
+- express-session: Session management
+- passport: Authentication
+- passport-local: Local authentication strategy
+
+## Development Tools
+- typescript: Type checking
+- @types/react: React type definitions
+- @types/react-dom: React DOM type definitions
+- @types/express: Express type definitions
+- @types/nodemailer: Nodemailer type definitions
+- @types/passport: Passport type definitions
+- @vitejs/plugin-react: Vite React plugin
+- vite: Build tool
+- tsx: TypeScript execution
+- drizzle-kit: Database toolkit
+
+## Build and Development
+- esbuild: JavaScript bundler
+- @replit/vite-plugin-runtime-error-modal: Error display
+- @replit/vite-plugin-shadcn-theme-json: Theme management
+
+## Runtime Dependencies
+- ws: WebSocket support
+- memorystore: Session storage
+- connect-pg-simple: PostgreSQL session store
+
+This application uses a modern stack with React for the frontend, Express for the backend, and includes comprehensive tooling for development and production. The UI is built with Tailwind CSS and enhanced with Radix UI components, while data management leverages React Query and Zod for type safety.
