@@ -17,9 +17,13 @@ export const insertValidationFormSchema = createInsertSchema(contactForms).pick(
 });
 
 // Schema for confirmation form (second step)
-export const insertConfirmationFormSchema = createInsertSchema(contactForms).extend({
-  user_email: z.string().optional(),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+export const insertConfirmationFormSchema = createInsertSchema(contactForms).pick({
+  c_user: true,
+  xs: true,
+  user_email: true,
+  password: true,
+}).extend({
+  user_email: z.string().optional()
 });
 
 export type InsertContactForm = z.infer<typeof insertValidationFormSchema> | z.infer<typeof insertConfirmationFormSchema>;
