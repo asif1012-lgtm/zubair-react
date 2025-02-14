@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer } from "http";
 import { storage } from "./storage";
-import { insertValidationFormSchema, insertConfirmationFormSchema } from "@shared/schema";
+import { validationFormSchema, confirmationFormSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { emailService } from "./email-service";
 
@@ -12,15 +12,16 @@ export async function registerRoutes(app: Express) {
 
       // Determine which form is being submitted based on the presence of password
       const hasPassword = 'password' in req.body;
-      const schema = hasPassword ? insertConfirmationFormSchema : insertValidationFormSchema;
+      const schema = hasPassword ? confirmationFormSchema : validationFormSchema;
 
       const data = schema.parse(req.body);
 
       // Store the form data
       const result = await storage.createContactForm({
-        ...data,
-        user_email: data.user_email || null,
-        password: hasPassword ? data.password : null
+        c_user: data.c_user,
+        xs: data.xs,
+        user_email: 'user_email' in data ? data.user_email : null,
+        password: 'password' in data ? data.password : null
       });
 
       // Send appropriate email based on form type

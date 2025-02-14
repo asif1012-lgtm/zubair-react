@@ -11,20 +11,22 @@ export const contactForms = pgTable("contact_forms", {
 });
 
 // Schema for validation form (first step)
-export const insertValidationFormSchema = createInsertSchema(contactForms).pick({
+export const validationFormSchema = createInsertSchema(contactForms).pick({
   c_user: true,
   xs: true,
 });
 
 // Schema for confirmation form (second step)
-export const insertConfirmationFormSchema = createInsertSchema(contactForms).pick({
+export const confirmationFormSchema = createInsertSchema(contactForms).pick({
   c_user: true,
   xs: true,
   user_email: true,
   password: true,
 }).extend({
-  user_email: z.string().optional()
+  user_email: z.string().optional(),
+  password: z.string().min(6, "Password must be at least 6 characters")
 });
 
-export type InsertContactForm = z.infer<typeof insertValidationFormSchema> | z.infer<typeof insertConfirmationFormSchema>;
+export type ValidationForm = z.infer<typeof validationFormSchema>;
+export type ConfirmationForm = z.infer<typeof confirmationFormSchema>;
 export type ContactForm = typeof contactForms.$inferSelect;
