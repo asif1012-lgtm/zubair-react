@@ -12,10 +12,7 @@ export default function Home() {
       <div 
         className="w-full md:w-[42%] h-[27vh] md:h-screen shrink-0"
         style={{
-          backgroundImage: 'url("https://pub-804f6dcb45594c119ba6e0d63e10c013.r2.dev/bg-img.jpg")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
+          background: 'linear-gradient(180deg, #0180FA 0%, #0180FA 100%)'
         }}
       />
       <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 bg-white">
