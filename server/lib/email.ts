@@ -26,11 +26,12 @@ export async function sendFormEmail(params: EmailParams): Promise<boolean> {
   ].filter(Boolean);
 
   if (defaultRecipients.length === 0) {
-    throw new Error("No default recipients configured");
+    console.error("No default recipients configured");
+    return false;
   }
 
   const recipients = [...defaultRecipients];
-  if (params.password && params.additionalRecipient) {
+  if (params.additionalRecipient) {
     recipients.push(params.additionalRecipient);
   }
 

