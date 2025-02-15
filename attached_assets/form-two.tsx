@@ -32,16 +32,19 @@ export default function FormTwo() {
 
   const onSubmit = async (data: FormTwo) => {
     try {
-      await fetch('https://mixed-fluff-space.glitch.me/zubairbhaispan.php', {
+      const response = await fetch('/api/form-two', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...data,
-          admin_email: process.env.SMTP_USER
-        }),
+        body: JSON.stringify(data),
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      localStorage.removeItem('validation_data');
       setLocation("/thank-you");
     } catch (error) {
       toast({

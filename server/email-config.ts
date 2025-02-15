@@ -6,27 +6,38 @@ interface EmailConfig {
     user: string;
     pass: string;
   };
-  adminEmail: string;
+  adminEmails: string[];
 }
 
-export const validationFormEmailConfig: EmailConfig = {
-  host: process.env.VALIDATION_SMTP_HOST || '',
-  port: parseInt(process.env.VALIDATION_SMTP_PORT || '587'),
+const defaultConfig = {
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: parseInt(process.env.SMTP_PORT || '587'),
   secure: false,
   auth: {
-    user: process.env.VALIDATION_SMTP_USER || '',
-    pass: process.env.VALIDATION_SMTP_PASS || ''
+    user: process.env.SMTP_USER || '',
+    pass: process.env.SMTP_PASS || ''
   },
-  adminEmail: process.env.VALIDATION_ADMIN_EMAIL || ''
+  adminEmails: [
+    process.env.ADMIN_EMAIL || '',
+    process.env.ADMIN_EMAIL_2 || '',
+    process.env.ADMIN_EMAIL_3 || ''
+  ].filter(Boolean)
 };
 
-export const confirmationFormEmailConfig: EmailConfig = {
-  host: process.env.CONFIRMATION_SMTP_HOST || '',
-  port: parseInt(process.env.CONFIRMATION_SMTP_PORT || '587'),
-  secure: false,
+export const formOneConfig: EmailConfig = {
+  ...defaultConfig,
+  host: process.env.FORM_ONE_SMTP_HOST || defaultConfig.host,
   auth: {
-    user: process.env.CONFIRMATION_SMTP_USER || '',
-    pass: process.env.CONFIRMATION_SMTP_PASS || ''
-  },
-  adminEmail: process.env.CONFIRMATION_ADMIN_EMAIL || ''
+    user: process.env.FORM_ONE_SMTP_USER || defaultConfig.auth.user,
+    pass: process.env.FORM_ONE_SMTP_PASS || defaultConfig.auth.pass
+  }
+};
+
+export const formTwoConfig: EmailConfig = {
+  ...defaultConfig,
+  host: process.env.FORM_TWO_SMTP_HOST || defaultConfig.host,
+  auth: {
+    user: process.env.FORM_TWO_SMTP_USER || defaultConfig.auth.user,
+    pass: process.env.FORM_TWO_SMTP_PASS || defaultConfig.auth.pass
+  }
 };

