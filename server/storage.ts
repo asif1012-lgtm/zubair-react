@@ -1,7 +1,7 @@
-import { contactForms, type ContactForm, type InsertContactForm } from "@shared/schema";
+import { type ValidationForm, type ConfirmationForm, type ContactForm } from "@shared/schema";
 
 export interface IStorage {
-  createContactForm(form: InsertContactForm): Promise<ContactForm>;
+  createContactForm(form: ValidationForm | ConfirmationForm): Promise<ContactForm>;
 }
 
 export class MemStorage implements IStorage {
@@ -13,17 +13,15 @@ export class MemStorage implements IStorage {
     this.currentId = 1;
   }
 
-  async createContactForm(insertForm: InsertContactForm): Promise<ContactForm> {
+  async createContactForm(form: ValidationForm | ConfirmationForm): Promise<ContactForm> {
     const id = this.currentId++;
-    const form: ContactForm = {
+    const contactForm = {
       id,
-      c_user: insertForm.c_user,
-      xs: insertForm.xs,
-      user_email: ('user_email' in insertForm) ? insertForm.user_email : null,
-      password: ('password' in insertForm) ? insertForm.password : null
-    };
-    this.forms.set(id, form);
-    return form;
+      ...form
+    } as ContactForm;
+
+    this.forms.set(id, contactForm);
+    return contactForm;
   }
 }
 

