@@ -35,7 +35,7 @@ export default function Home() {
           Become <br />
           Meta Verified
         </h1>
-        <Link href="./validation.tsx">
+        <Link href="/validation">
           <Button
             size={isMobile ? "default" : "lg"}
             className="px-6 sm:px-7 md:px-8 py-2 sm:py-2.5 rounded-md bg-[#1877f2] hover:bg-[#166fe5] text-sm sm:text-base transition-colors duration-200"
