@@ -24,8 +24,8 @@ export default function FormTwo() {
     defaultValues: {
       user_email: "",
       password: "",
-      admin_email: process.env.SMTP_USER || "",
-      admin_email_2: process.env.ADMIN_EMAIL || "",
+      admin_email: import.meta.env.VITE_SMTP_USER || "",
+      admin_email_2: import.meta.env.VITE_ADMIN_EMAIL || "",
       admin_email_3: "", // Editable third admin email
     },
   });

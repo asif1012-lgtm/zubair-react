@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
 import { validationFormSchema } from "@shared/schema";
+import { apiRequest } from "@/lib/queryClient";
 import { useMobile } from "@/hooks/use-mobile";
 import { MobileModal } from "@/components/mobile-modal";
 import { Search } from "lucide-react";
@@ -41,13 +42,7 @@ export default function Validation() {
 
   const onSubmit = async (data: any) => {
     try {
-      await fetch('/api/form-one', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      await apiRequest('POST', '/api/contact-form', data);
       localStorage.setItem('validation_data', JSON.stringify(data));
 
       toast({
