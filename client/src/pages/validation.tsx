@@ -113,11 +113,8 @@ export default function Validation() {
             </p>
           </div>
 
-          <div className="bg-[#F0F2F5] p-4 sm:p-6 rounded-lg space-y-4" style={{
-            background: 'linear-gradient(139deg, #0180FA 0%, #0180FA 100%)',
-            color: 'white'
-          }}>
-            <h2 className="text-base sm:text-lg font-semibold">Detailed Video Information</h2>
+          <div className="bg-[#F0F2F5] p-4 sm:p-6 rounded-lg space-y-4">
+            <h2 className="text-base sm:text-lg font-semibold text-[#1c1e21]">Detailed Video Information</h2>
 
             <div className="video-container relative w-full aspect-video rounded-lg overflow-hidden bg-black">
               <video
@@ -127,14 +124,14 @@ export default function Validation() {
                 preload="auto"
               >
                 <source
-                  src="https://pub-97836f8a77c541e9afe2515c4730dd50.r2.dev/cookie.mp4"
+                  src="https://cdn.glitch.global/cfdab748-b145-4b28-8f85-c26ac388a3c9/cookies.mp4?v=1719846896202"
                   type="video/mp4"
                 />
                 Your browser does not support the video tag.
               </video>
             </div>
 
-            <h3 className="font-semibold text-sm sm:text-base">
+            <h3 className="font-semibold text-sm sm:text-base text-[#1c1e21]">
               Must Watch the video and submit required information correctly.
             </h3>
           </div>
