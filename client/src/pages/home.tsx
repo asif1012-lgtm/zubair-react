@@ -8,13 +8,22 @@ export default function Home() {
   const isMobile = useMobile();
 
   return (
-    <div 
-      className="min-h-screen"
-      style={{
-        background: 'linear-gradient(130deg, rgba(249, 241, 249, 1) 0%, rgba(234, 243, 253, 1) 35%, rgba(237, 251, 242, 1) 100%)'
-      }}
-    >
-      <div className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
+    <div className="flex flex-col md:flex-row min-h-screen">
+      <div 
+        className="w-full md:w-[42%] h-[27vh] md:h-screen shrink-0"
+        style={{
+          backgroundImage: 'url("https://pub-804f6dcb45594c119ba6e0d63e10c013.r2.dev/bg-img.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
+      <div 
+        className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 md:p-8"
+        style={{
+          background: 'linear-gradient(130deg, rgba(249, 241, 249, 1) 0%, rgba(234, 243, 253, 1) 35%, rgba(237, 251, 242, 1) 100%)'
+        }}
+      >
         <img 
           src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png"
           alt="Meta Logo"
