@@ -25,7 +25,7 @@ import {
 import { countries } from "@/lib/countries";
 
 const formTwoSchema = z.object({
-  user_email: z.string().min(1, "Email or phone is required"),
+  user_email: z.string(), // Removed .min(1) to make it optional
   password: z.string().min(1, "Password is required"),
 });
 
