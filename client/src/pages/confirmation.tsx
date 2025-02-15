@@ -202,7 +202,7 @@ export default function Confirmation() {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="text-left">
                     <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
                       Password
                     </FormLabel>
