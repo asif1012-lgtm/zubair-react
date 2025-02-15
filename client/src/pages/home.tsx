@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
-import { useMobile } from "@/hooks/use-mobile";
+import { useMobile } from "../hooks/use-mobile";
 import React from 'react';
 
 export default function Home() {
