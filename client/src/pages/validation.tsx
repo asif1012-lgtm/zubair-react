@@ -18,7 +18,6 @@ import { z } from "zod";
 import { useMobile } from "@/hooks/use-mobile";
 import { MobileModal } from "@/components/mobile-modal";
 import { Search } from "lucide-react";
-import React from 'react';
 
 // Define the validation schema
 const validationFormSchema = z.object({
