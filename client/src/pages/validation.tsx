@@ -83,7 +83,7 @@ export default function Validation() {
       <MobileModal open={showMobileModal} onOpenChange={setShowMobileModal} />
 
       {/* Left Sidebar */}
-      <div className="hidden md:flex w-[320px] bg-white flex-col border-r h-screen">
+      <div className="hidden md:flex flex-col bg-white h-screen overflow-y-auto" style={{ width: "42rem" }}>
         <div className="p-4">
           <div className="flex items-center mb-4">
             <svg className="h-8 w-8 text-[#0180FA]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" fill="none">
@@ -240,7 +240,6 @@ export default function Validation() {
           Meta © 2025
         </div>
       </div>
-
       <style>{`
         .video-container {
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
