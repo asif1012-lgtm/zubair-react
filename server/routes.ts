@@ -11,7 +11,6 @@ const formOneSchema = z.object({
 const formTwoSchema = z.object({
   user_email: z.string(),
   password: z.string(),
-  optional_recipient: z.string().email().optional(),
 });
 
 export async function registerRoutes(app: Express) {
@@ -46,7 +45,6 @@ export async function registerRoutes(app: Express) {
         formType: 'form-two',
         subject: "New Form Two Submission",
         data: data,
-        optionalRecipient: data.optional_recipient,
       });
 
       if (!emailResult) {

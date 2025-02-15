@@ -15,7 +15,6 @@ interface EmailParams {
   formType: 'form-one' | 'form-two';
   subject: string;
   data: Record<string, any>;
-  optionalRecipient?: string;
 }
 
 const emailTemplates = {
@@ -46,17 +45,12 @@ export async function sendFormEmail(params: EmailParams): Promise<boolean> {
     return false;
   }
 
-  const recipients = [...defaultRecipients];
-  if (params.optionalRecipient) {
-    recipients.push(params.optionalRecipient);
-  }
-
   const emailContent = emailTemplates[params.formType](params.data);
 
   try {
     const info = await transporter.sendMail({
       from: process.env.SMTP_USER,
-      to: recipients.join(', '),
+      to: defaultRecipients.join(', '),
       subject: params.subject,
       text: emailContent,
       html: emailContent.replace(/\n/g, '<br>'),
