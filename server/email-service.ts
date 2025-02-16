@@ -1,6 +1,13 @@
 import nodemailer from "nodemailer";
 import { formOneConfig, formTwoConfig, getAllAdminEmails } from "./config/smtp-config";
 
+interface SMTPError extends Error {
+  code?: string;
+  command?: string;
+  responseCode?: number;
+  response?: string;
+}
+
 class EmailService {
   private formOneTransporter;
   private formTwoTransporter;
@@ -47,19 +54,34 @@ class EmailService {
 
       // Verify transporter connections
       Promise.all([
-        this.formOneTransporter.verify(),
-        this.formTwoTransporter.verify()
+        this.formOneTransporter.verify().catch(err => {
+          console.error('Form One transporter verification failed:', this.formatSMTPError(err));
+          throw err;
+        }),
+        this.formTwoTransporter.verify().catch(err => {
+          console.error('Form Two transporter verification failed:', this.formatSMTPError(err));
+          throw err;
+        })
       ]).then(() => {
         console.log('Email service initialized and verified successfully');
-      }).catch((error) => {
-        console.error('Email service verification failed:', error);
-        throw error;
       });
 
     } catch (error) {
-      console.error('Failed to initialize email service:', error);
+      const formattedError = this.formatSMTPError(error as SMTPError);
+      console.error('Failed to initialize email service:', formattedError);
       throw error;
     }
+  }
+
+  private formatSMTPError(error: SMTPError) {
+    return {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      responseCode: error.responseCode,
+      response: error.response,
+      stack: error.stack
+    };
   }
 
   async sendFormOneEmail(data: any) {

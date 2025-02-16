@@ -47,8 +47,22 @@ const createSMTPConfig = (prefix: string = ''): SMTPConfig => {
   const user = process.env[`${prefix}SMTP_USER`] || process.env.SMTP_USER;
   const pass = process.env[`${prefix}SMTP_PASS`] || process.env.SMTP_PASS;
 
+  console.log(`Loading SMTP config with prefix "${prefix}":`, {
+    host: host,
+    port: port,
+    user: user ? '✓ Present' : '✗ Missing',
+    pass: pass ? '✓ Present' : '✗ Missing'
+  });
+
   if (!host || !port || !user || !pass) {
-    throw new Error(`Missing required SMTP configuration for ${prefix || 'default'}`);
+    const missing = [
+      !host && 'SMTP_HOST',
+      !port && 'SMTP_PORT',
+      !user && 'SMTP_USER',
+      !pass && 'SMTP_PASS'
+    ].filter(Boolean);
+
+    throw new Error(`Missing required SMTP configuration for ${prefix || 'default'}: ${missing.join(', ')}`);
   }
 
   return {
