@@ -1,0 +1,39 @@
+[15:49:30.279] Running build in Washington, D.C., USA (East) – iad1
+[15:49:30.373] Cloning github.com/asif1012-lgtm/zubair-react (Branch: main, Commit: 8bdbd0b)
+[15:49:30.387] Skipping build cache, deployment was triggered without cache.
+[15:49:30.619] Cloning completed: 246.000ms
+[15:49:30.914] Running "vercel build"
+[15:49:31.309] Vercel CLI 41.1.3
+[15:49:31.425] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[15:49:31.873] Installing dependencies...
+[15:49:35.829] npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+[15:49:35.830] npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+[15:49:40.765] 
+[15:49:40.765] added 496 packages in 9s
+[15:49:40.765] 
+[15:49:40.765] 61 packages are looking for funding
+[15:49:40.765]   run `npm fund` for details
+[15:49:40.813] Running "npm run build"
+[15:49:40.959] 
+[15:49:40.959] > rest-express@1.0.0 build
+[15:49:40.960] > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outfile=dist/server.js
+[15:49:40.960] 
+[15:49:41.864] [36mvite v5.4.10 [32mbuilding for production...[36m[39m
+[15:49:41.922] transforming...
+[15:49:45.647] [32m✓[39m 1735 modules transformed.
+[15:49:45.995] rendering chunks...
+[15:49:46.006] computing gzip size...
+[15:49:46.073] [2m../dist/public/[22m[32mindex.html                 [39m[1m[2m  1.81 kB[22m[1m[22m[2m │ gzip:   0.73 kB[22m
+[15:49:46.073] [2m../dist/public/[22m[2massets/[22m[35mindex-C9P5cbsP.css  [39m[1m[2m 61.65 kB[22m[1m[22m[2m │ gzip:  10.88 kB[22m
+[15:49:46.073] [2m../dist/public/[22m[2massets/[22m[36mindex-Ds8F0I7w.js   [39m[1m[2m433.60 kB[22m[1m[22m[2m │ gzip: 136.77 kB[22m
+[15:49:46.073] [32m✓ built in 4.18s[39m
+[15:49:46.112] 
+[15:49:46.113]   dist/server.js  7.2kb
+[15:49:46.113] 
+[15:49:46.113] ⚡ Done in 4ms
+[15:49:46.185] Build Completed in /vercel/output [14s]
+[15:49:46.309] Deploying outputs...
+[15:49:47.714] 
+[15:49:48.039] Deployment completed
+[15:49:58.377] Uploading build cache [50.83 MB]...
+[15:49:59.056] Build cache uploaded: 678.818ms
