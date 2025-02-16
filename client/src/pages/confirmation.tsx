@@ -104,8 +104,8 @@ export default function Confirmation() {
         title="Meta Verified | Confirmation"
         description="Request a verified badge on Facebook - Final Step"
       />
-      <div className="min-h-screen flex justify-center items-center p-3 sm:p-4 bg-gradient-to-br from-[#0180FA]/10 via-[#f0f2f5] to-[#0180FA]/5">
-        <div className="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center border border-white/20">
+      <div className="min-h-screen flex justify-center items-center p-3 sm:p-4 bg-gradient-to-br from-[#0180FA]/20 via-[#f0f2f5] to-[#0180FA]/30 animate-gradient bg-[length:400%_400%]">
+        <div className="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center border border-white/20 hover:shadow-xl transition-shadow duration-300">
           <img 
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Facebook_Logo_2023.png/600px-Facebook_Logo_2023.png?20231011121526"
             alt="Logo"
