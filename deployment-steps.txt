@@ -1,22 +1,21 @@
+# Initialize Git repository
 git init
-   ```
-2. Add all files to Git:
-   ```bash
-   git add .
-   ```
-3. Make your first commit:
-   ```bash
-   git commit -m "Initial commit"
-   ```
-4. Connect to your GitHub repository:
-   ```bash
-   git remote add origin https://github.com/asif1012-lgtm/zubair-react.git
-   ```
-5. Push your code:
-   ```bash
-   git branch -M main
-   git push -u origin main
-   ```
+
+# Add all files
+git add .
+
+# Make first commit
+git commit -m "Initial commit"
+
+# Connect to your GitHub repository
+git remote add origin https://github.com/asif1012-lgtm/zubair-react.git
+
+# Push code to GitHub
+git branch -M main
+git push -u origin main
+```
+
+When prompted for password, use your personal access token instead of your GitHub password.
 
 ## Step 2: Environment Variables Setup
 Create `.env.production` with these variables:
@@ -24,29 +23,29 @@ Create `.env.production` with these variables:
 # Your production API URL
 VITE_API_URL=https://your-meta-verified-app.vercel.app
 
-# Email Configuration
+# SMTP Configuration
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-app-specific-password
 
-# Form One Email Settings
+# Form One SMTP Config (if different from default)
 FORM_ONE_SMTP_HOST=smtp.gmail.com
 FORM_ONE_SMTP_USER=your-form-one-email@gmail.com
 FORM_ONE_SMTP_PASS=your-form-one-app-specific-password
 
-# Form Two Email Settings
+# Form Two SMTP Config (if different from default)
 FORM_TWO_SMTP_HOST=smtp.gmail.com
 FORM_TWO_SMTP_USER=your-form-two-email@gmail.com
 FORM_TWO_SMTP_PASS=your-form-two-app-specific-password
 
-# Admin Email Notifications
+# Admin Emails
 ADMIN_EMAIL=admin1@example.com
 ADMIN_EMAIL_2=admin2@example.com
 ADMIN_EMAIL_3=admin3@example.com
 ```
 
-## Step 3: Verifying Your Project Structure
+## Step 3: Verifying Project Structure
 1. Open your project folder
 2. Confirm you have this exact structure:
 ```
