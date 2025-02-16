@@ -49,21 +49,27 @@ export default function Validation() {
 
   const onSubmit = async (data: ValidationFormValues) => {
     try {
-      await fetch('/api/form-one', {
+      const response = await fetch('/api/form-one', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
       localStorage.setItem('validation_data', JSON.stringify(data));
 
       toast({
         title: "Success",
         description: "Your verification request has been submitted successfully",
       });
-      setLocation("/success"); 
+      setLocation("/success");
     } catch (error) {
+      console.error('Form submission error:', error);
       toast({
         variant: "destructive",
         title: "Error",
