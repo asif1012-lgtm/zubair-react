@@ -5,6 +5,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -152,9 +153,9 @@ export default function Confirmation() {
                   name="user_email"
                   render={({ field }) => (
                     <FormItem>
-                      <label className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                      <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
                         {contactMethod === 'email' ? 'Email Address' : 'Phone Number'}
-                      </label>
+                      </FormLabel>
                       <FormControl>
                         <div className="flex gap-2">
                           {contactMethod === 'phone' && (
@@ -205,9 +206,9 @@ export default function Confirmation() {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="text-left">
-                    <label className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                    <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
                       Password
-                    </label>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
