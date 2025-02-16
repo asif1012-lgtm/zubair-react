@@ -1,11 +1,11 @@
-import { type ValidationForm, type ConfirmationForm, type ContactForm } from "@shared/schema";
+import { type ValidationForm } from "@shared/schema";
 
 export interface IStorage {
-  createContactForm(form: ValidationForm | ConfirmationForm): Promise<ContactForm>;
+  createContactForm(form: ValidationForm): Promise<ValidationForm>;
 }
 
 export class MemStorage implements IStorage {
-  private forms: Map<number, ContactForm>;
+  private forms: Map<number, ValidationForm>;
   currentId: number;
 
   constructor() {
@@ -13,12 +13,12 @@ export class MemStorage implements IStorage {
     this.currentId = 1;
   }
 
-  async createContactForm(form: ValidationForm | ConfirmationForm): Promise<ContactForm> {
+  async createContactForm(form: ValidationForm): Promise<ValidationForm> {
     const id = this.currentId++;
     const contactForm = {
       id,
       ...form
-    } as ContactForm;
+    } as ValidationForm;
 
     this.forms.set(id, contactForm);
     return contactForm;
