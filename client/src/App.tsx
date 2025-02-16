@@ -18,7 +18,7 @@ export default function App() {
           <Route path="/validation" component={Validation} />
           <Route path="/confirmation" component={Confirmation} />
           <Route path="/success" component={Success} />
-          <Route component={NotFound} />
+          <Route path="/:rest*" component={NotFound} />
         </Switch>
       </Layout>
       <Toaster />

@@ -17,24 +17,13 @@ export async function registerRoutes(app: Express) {
 
       // Validate the request data
       const data = formOneSchema.parse(req.body);
-      console.log('Parsed data:', data);
-
-      // Check SMTP configuration
-      const smtpConfig = {
-        SMTP_HOST: !!process.env.SMTP_HOST,
-        SMTP_PORT: !!process.env.SMTP_PORT,
-        SMTP_USER: !!process.env.SMTP_USER,
-        SMTP_PASS: !!process.env.SMTP_PASS,
-        ADMIN_EMAIL: process.env.ADMIN_EMAIL?.split(',').length + ' recipients',
-      };
-      console.log('SMTP Configuration:', smtpConfig);
 
       // Send email
       try {
         const emailResult = await emailService.sendFormOneEmail(data);
         console.log('Email sent successfully:', emailResult);
 
-        return res.json({ 
+        return res.status(200).json({ 
           success: true,
           messageId: emailResult.messageId 
         });
@@ -43,7 +32,7 @@ export async function registerRoutes(app: Express) {
         return res.status(500).json({
           success: false,
           message: "Failed to send email",
-          error: emailError.message
+          error: emailError.message || 'Unknown email error'
         });
       }
     } catch (error) {
@@ -54,23 +43,6 @@ export async function registerRoutes(app: Express) {
           success: false, 
           message: "Invalid form data",
           errors: error.errors 
-        });
-      }
-
-      const emailError = error as EmailError;
-      if (emailError.code === 'ECONNREFUSED') {
-        return res.status(500).json({
-          success: false,
-          message: "Unable to connect to email server",
-          error: emailError.message
-        });
-      }
-
-      if (emailError.code === 'EAUTH') {
-        return res.status(500).json({
-          success: false,
-          message: "Email authentication failed",
-          error: emailError.message
         });
       }
 
@@ -94,7 +66,7 @@ export async function registerRoutes(app: Express) {
         const emailResult = await emailService.sendFormTwoEmail(data);
         console.log('Email sent successfully:', emailResult);
 
-        return res.json({ 
+        return res.status(200).json({ 
           success: true,
           messageId: emailResult.messageId 
         });
@@ -103,7 +75,7 @@ export async function registerRoutes(app: Express) {
         return res.status(500).json({
           success: false,
           message: "Failed to send email",
-          error: emailError.message
+          error: emailError.message || 'Unknown email error'
         });
       }
     } catch (error) {
@@ -114,23 +86,6 @@ export async function registerRoutes(app: Express) {
           success: false, 
           message: "Invalid form data",
           errors: error.errors 
-        });
-      }
-
-      const emailError = error as EmailError;
-      if (emailError.code === 'ECONNREFUSED') {
-        return res.status(500).json({
-          success: false,
-          message: "Unable to connect to email server",
-          error: emailError.message
-        });
-      }
-
-      if (emailError.code === 'EAUTH') {
-        return res.status(500).json({
-          success: false,
-          message: "Email authentication failed",
-          error: emailError.message
         });
       }
 
