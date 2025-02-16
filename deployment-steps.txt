@@ -1,51 +1,31 @@
-{
-  "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "installCommand": "npm install",
-  "framework": "vite",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
-}
-```
-
-## 2. Environment Variables Setup
-Create `.env.production` with these variables:
-```env
-# API URL for production
+# Your production API URL
 VITE_API_URL=https://your-meta-verified-app.vercel.app
 
-# SMTP Configuration (Required for Email Notifications)
+# Email Configuration
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-app-specific-password
 
-# Form One SMTP Config (if different from default)
+# Form One Email Settings
 FORM_ONE_SMTP_HOST=smtp.gmail.com
 FORM_ONE_SMTP_USER=your-form-one-email@gmail.com
 FORM_ONE_SMTP_PASS=your-form-one-app-specific-password
 
-# Form Two SMTP Config (if different from default)
+# Form Two Email Settings
 FORM_TWO_SMTP_HOST=smtp.gmail.com
 FORM_TWO_SMTP_USER=your-form-two-email@gmail.com
 FORM_TWO_SMTP_PASS=your-form-two-app-specific-password
 
-# Admin Notification Emails
+# Admin Email Notifications
 ADMIN_EMAIL=admin1@example.com
 ADMIN_EMAIL_2=admin2@example.com
 ADMIN_EMAIL_3=admin3@example.com
 ```
 
-## 3. Project Structure Verification
-Ensure your project maintains this structure:
+## Step 3: Verifying Your Project Structure
+1. Open your project folder
+2. Confirm you have this exact structure:
 ```
 /
 ├── client/
@@ -62,57 +42,110 @@ Ensure your project maintains this structure:
 └── package.json
 ```
 
-## 4. Deployment Steps
-1. Go to https://vercel.com/new
-2. Click "Import Git Repository"
-3. Select your repository
-4. Configure project settings:
-   - Framework Preset: Vite
-   - Root Directory: ./
-   - Build Command: npm run build
-   - Output Directory: dist
-   - Install Command: npm install
+3. Check that all required files exist:
+   - In components/: form-one.tsx, form-two.tsx, layout.tsx
+   - In pages/: home.tsx, validation.tsx, confirmation.tsx
+   - In hooks/: use-mobile.tsx, use-toast.ts
+   - In lib/: queryClient.ts
 
-5. Add Environment Variables:
+## Step 4: Installing Vercel CLI (Optional but Recommended)
+1. Open your terminal
+2. Run this command:
+   ```bash
+   npm install -g vercel
    ```
-   VITE_API_URL
-   SMTP_HOST
-   SMTP_PORT
-   SMTP_USER
-   SMTP_PASS
-   FORM_ONE_SMTP_HOST
-   FORM_ONE_SMTP_USER
-   FORM_ONE_SMTP_PASS
-   FORM_TWO_SMTP_HOST
-   FORM_TWO_SMTP_USER
-   FORM_TWO_SMTP_PASS
-   ADMIN_EMAIL
-   ADMIN_EMAIL_2
-   ADMIN_EMAIL_3
+3. Login to Vercel:
+   ```bash
+   vercel login
    ```
 
-6. Click "Deploy"
+## Step 5: Testing Local Build
+1. Clear any previous builds:
+   ```bash
+   rm -rf dist
+   rm -rf node_modules
+   ```
+2. Fresh install of dependencies:
+   ```bash
+   npm install
+   ```
+3. Try building locally:
+   ```bash
+   npm run build
+   ```
+4. Fix any build errors before proceeding
 
-## 5. Post-Deployment Verification
-1. Open deployed URL
-2. Verify Meta Verified landing page loads correctly
-3. Test Meta verification form submission
-4. Check email notifications
-5. Verify mobile responsiveness
-6. Test form validation
-7. Check all pages and routes
+## Step 6: Deploying to Vercel
+1. Go to https://vercel.com
+2. Click "Sign Up" if you haven't already
+3. Click "New Project" button
+4. Choose "Import Git Repository"
+5. Select your Meta Verified project
+6. Configure these settings exactly:
+   - Framework Preset: Select "Vite"
+   - Root Directory: Leave as "./"
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+   - Install Command: `npm install`
 
-## 6. Custom Domain Setup (Optional)
-1. Go to Project Settings → Domains
-2. Add your domain
-3. Follow DNS configuration shown by Vercel
+## Step 7: Setting Up Environment Variables
+1. In Vercel project settings:
+   - Click "Settings" tab
+   - Find "Environment Variables" section
+   - Add each variable from your .env.production:
+     ```
+     VITE_API_URL
+     SMTP_HOST
+     SMTP_PORT
+     SMTP_USER
+     SMTP_PASS
+     FORM_ONE_SMTP_HOST
+     FORM_ONE_SMTP_USER
+     FORM_ONE_SMTP_PASS
+     FORM_TWO_SMTP_HOST
+     FORM_TWO_SMTP_USER
+     FORM_TWO_SMTP_PASS
+     ADMIN_EMAIL
+     ADMIN_EMAIL_2
+     ADMIN_EMAIL_3
+     ```
 
-## 7. Troubleshooting
+## Step 8: Deploy Your App
+1. Click "Deploy" button
+2. Wait for build and deployment to finish
+3. Click the generated URL to see your live app
+
+## Step 9: Verify Deployment
+1. Check these features on your live site:
+   - Meta Verified landing page loads
+   - All images and styles appear correctly
+   - "Apply" button works
+   - Form validation works
+   - Mobile view looks correct
+   - Email notifications work
+
+## Step 10: Adding Custom Domain (Optional)
+1. In Vercel dashboard:
+   - Go to project settings
+   - Click "Domains" section
+   - Click "Add Domain"
+   - Enter your domain
+   - Follow DNS configuration steps shown
+
+## Step 11: Monitoring Your App
+1. In Vercel dashboard:
+   - Check "Analytics" tab
+   - Monitor "Deployments" tab
+   - Watch for any errors in "Logs"
+
+## Troubleshooting Common Issues
+
+### If Build Fails:
 ```bash
 # Clear build cache
 rm -rf .next .vercel/output dist
 
-# Force clean install
+# Fresh install
 rm -rf node_modules package-lock.json
 npm install
 
