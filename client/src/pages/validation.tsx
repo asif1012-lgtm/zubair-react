@@ -60,9 +60,9 @@ export default function Validation() {
 
       toast({
         title: "Success",
-        description: "Please proceed to the next step",
+        description: "Your verification request has been submitted successfully",
       });
-      setLocation("/confirmation");
+      setLocation("/success"); 
     } catch (error) {
       toast({
         variant: "destructive",
