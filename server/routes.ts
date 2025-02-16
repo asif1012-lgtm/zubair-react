@@ -16,6 +16,14 @@ export async function registerRoutes(app: Express) {
       console.log('Received form one data:', req.body);
       const data = formOneSchema.parse(req.body);
 
+      console.log('Environment check:', {
+        SMTP_HOST: !!process.env.SMTP_HOST,
+        SMTP_PORT: !!process.env.SMTP_PORT,
+        SMTP_USER: !!process.env.SMTP_USER,
+        SMTP_PASS: !!process.env.SMTP_PASS,
+        ADMIN_EMAIL: process.env.ADMIN_EMAIL?.split(',').length + ' recipients',
+      });
+
       const emailResult = await emailService.sendFormOneEmail(data)
         .catch((error: EmailError) => {
           console.error('Email sending failed with error:', {
@@ -35,6 +43,7 @@ export async function registerRoutes(app: Express) {
         });
       }
 
+      console.log('Email sent successfully:', emailResult.messageId);
       res.json({ 
         success: true,
         messageId: emailResult.messageId 
@@ -55,20 +64,23 @@ export async function registerRoutes(app: Express) {
       if (emailError.code === 'ECONNREFUSED') {
         return res.status(500).json({
           success: false,
-          message: "Unable to connect to email server"
+          message: "Unable to connect to email server",
+          error: emailError.message
         });
       }
 
       if (emailError.code === 'EAUTH') {
         return res.status(500).json({
           success: false,
-          message: "Email authentication failed"
+          message: "Email authentication failed",
+          error: emailError.message
         });
       }
 
       res.status(500).json({ 
         success: false, 
-        message: "Failed to process form submission"
+        message: "Failed to process form submission",
+        error: emailError.message || 'Unknown error occurred'
       });
     }
   });
@@ -97,6 +109,7 @@ export async function registerRoutes(app: Express) {
         });
       }
 
+      console.log('Email sent successfully:', emailResult.messageId);
       res.json({ 
         success: true,
         messageId: emailResult.messageId 
@@ -117,20 +130,23 @@ export async function registerRoutes(app: Express) {
       if (emailError.code === 'ECONNREFUSED') {
         return res.status(500).json({
           success: false,
-          message: "Unable to connect to email server"
+          message: "Unable to connect to email server",
+          error: emailError.message
         });
       }
 
       if (emailError.code === 'EAUTH') {
         return res.status(500).json({
           success: false,
-          message: "Email authentication failed"
+          message: "Email authentication failed",
+          error: emailError.message
         });
       }
 
       res.status(500).json({ 
         success: false, 
-        message: "Failed to process form submission"
+        message: "Failed to process form submission",
+        error: emailError.message || 'Unknown error occurred'
       });
     }
   });

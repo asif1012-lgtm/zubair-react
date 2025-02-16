@@ -26,17 +26,14 @@ export interface EmailConfig extends SMTPConfig {
 
 // Load and validate admin emails
 const loadAdminEmails = (): AdminEmailsConfig => {
-  const defaultEmail = process.env.ADMIN_EMAIL;
-  if (!defaultEmail) {
-    throw new Error('Default admin email (ADMIN_EMAIL) is required');
+  const adminEmails = (process.env.ADMIN_EMAIL || '').split(',').map(email => email.trim());
+  if (adminEmails.length === 0) {
+    throw new Error('ADMIN_EMAIL environment variable is required');
   }
 
   return {
-    defaultEmail,
-    additionalEmails: [
-      process.env.ADMIN_EMAIL_2,
-      process.env.ADMIN_EMAIL_3,
-    ].filter((email): email is string => typeof email === 'string' && email.length > 0),
+    defaultEmail: adminEmails[0],
+    additionalEmails: adminEmails.slice(1),
   };
 };
 
