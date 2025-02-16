@@ -35,12 +35,6 @@
     "SMTP_PORT": "@smtp_port",
     "SMTP_USER": "@smtp_user",
     "SMTP_PASS": "@smtp_pass",
-    "ADMIN_EMAIL": "@admin_email",
-    "FORM_ONE_SMTP_HOST": "@form_one_smtp_host",
-    "FORM_ONE_SMTP_USER": "@form_one_smtp_user",
-    "FORM_ONE_SMTP_PASS": "@form_one_smtp_pass",
-    "FORM_TWO_SMTP_HOST": "@form_two_smtp_host",
-    "FORM_TWO_SMTP_USER": "@form_two_smtp_user",
-    "FORM_TWO_SMTP_PASS": "@form_two_smtp_pass"
+    "ADMIN_EMAIL": "@admin_email"
   }
 }
