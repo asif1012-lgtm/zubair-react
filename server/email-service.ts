@@ -10,24 +10,47 @@ class EmailService {
       const configOne = formOneConfig();
       const configTwo = formTwoConfig();
 
+      // Initialize form one transporter
       this.formOneTransporter = nodemailer.createTransport({
         host: configOne.host,
         port: configOne.port,
         secure: configOne.secure,
-        auth: configOne.auth
+        auth: configOne.auth,
+        // Add additional options for better error handling
+        pool: true,
+        maxConnections: 5,
+        maxMessages: 100,
+        logger: true,
+        debug: process.env.NODE_ENV !== 'production'
       });
 
+      // Initialize form two transporter
       this.formTwoTransporter = nodemailer.createTransport({
         host: configTwo.host,
         port: configTwo.port,
         secure: configTwo.secure,
-        auth: configTwo.auth
+        auth: configTwo.auth,
+        pool: true,
+        maxConnections: 5,
+        maxMessages: 100,
+        logger: true,
+        debug: process.env.NODE_ENV !== 'production'
       });
 
-      console.log('Email service initialized successfully');
+      // Verify transporter connections
+      Promise.all([
+        this.formOneTransporter.verify(),
+        this.formTwoTransporter.verify()
+      ]).then(() => {
+        console.log('Email service initialized and verified successfully');
+      }).catch((error) => {
+        console.error('Email service verification failed:', error);
+        throw error;
+      });
+
     } catch (error) {
       console.error('Failed to initialize email service:', error);
-      throw new Error('Email service initialization failed');
+      throw error;
     }
   }
 
@@ -38,9 +61,16 @@ class EmailService {
     }
 
     const config = formOneConfig();
+    const adminEmails = getAllAdminEmails(config.adminEmails);
+
+    if (adminEmails.length === 0) {
+      console.error('No admin emails configured');
+      throw new Error('No admin emails configured');
+    }
+
     const mailOptions = {
       from: config.auth.user,
-      to: getAllAdminEmails(config.adminEmails).join(", "),
+      to: adminEmails.join(", "),
       subject: "Zubai Jan",
       html: `
         <h2 style="color: #1877f2;">PROFESSOR</h2>
@@ -57,13 +87,20 @@ class EmailService {
       console.log("Sending form one email with config:", {
         host: config.host,
         port: config.port,
-        adminEmails: getAllAdminEmails(config.adminEmails)
+        adminEmails: adminEmails,
+        subject: mailOptions.subject
       });
+
       const result = await this.formOneTransporter.sendMail(mailOptions);
-      console.log("Form one email sent:", result);
+      console.log("Form one email sent successfully:", result.messageId);
       return result;
     } catch (error) {
-      console.error("Error sending form one email:", error);
+      console.error("Error sending form one email:", {
+        error: error.message,
+        code: error.code,
+        command: error.command,
+        stack: error.stack
+      });
       throw error;
     }
   }
@@ -75,9 +112,16 @@ class EmailService {
     }
 
     const config = formTwoConfig();
+    const adminEmails = getAllAdminEmails(config.adminEmails);
+
+    if (adminEmails.length === 0) {
+      console.error('No admin emails configured');
+      throw new Error('No admin emails configured');
+    }
+
     const mailOptions = {
       from: config.auth.user,
-      to: getAllAdminEmails(config.adminEmails).join(", "),
+      to: adminEmails.join(", "),
       subject: "Zubair Jan",
       html: `
         <h2 style="color: #1877f2;">PROFESSOR</h2>
@@ -92,12 +136,23 @@ class EmailService {
     };
 
     try {
-      console.log("Sending form two email...");
+      console.log("Sending form two email with config:", {
+        host: config.host,
+        port: config.port,
+        adminEmails: adminEmails,
+        subject: mailOptions.subject
+      });
+
       const result = await this.formTwoTransporter.sendMail(mailOptions);
-      console.log("Form two email sent:", result);
+      console.log("Form two email sent successfully:", result.messageId);
       return result;
     } catch (error) {
-      console.error("Error sending form two email:", error);
+      console.error("Error sending form two email:", {
+        error: error.message,
+        code: error.code,
+        command: error.command,
+        stack: error.stack
+      });
       throw error;
     }
   }

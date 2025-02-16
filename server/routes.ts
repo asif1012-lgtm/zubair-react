@@ -1,7 +1,14 @@
 import type { Express } from "express";
 import { createServer } from "http";
-import { sendFormEmail } from "./lib/email";
 import { formOneSchema, formTwoSchema } from "@shared/schema";
+import { ZodError } from "zod";
+import { emailService } from "./email-service";
+
+interface EmailError extends Error {
+  code?: string;
+  responseCode?: number;
+  command?: string;
+}
 
 export async function registerRoutes(app: Express) {
   app.post("/api/form-one", async (req, res) => {
@@ -9,30 +16,59 @@ export async function registerRoutes(app: Express) {
       console.log('Received form one data:', req.body);
       const data = formOneSchema.parse(req.body);
 
-      const emailResult = await sendFormEmail({
-        formType: 'form-one',
-        subject: "New Form One Submission",
-        data: data,
-      });
+      const emailResult = await emailService.sendFormOneEmail(data)
+        .catch((error: EmailError) => {
+          console.error('Email sending failed with error:', {
+            message: error.message,
+            code: error.code,
+            command: error.command,
+            stack: error.stack
+          });
+          throw error;
+        });
 
       if (!emailResult) {
-        console.error('Email sending failed');
-        throw new Error("Failed to send email");
+        console.error('Email sending failed - no result returned');
+        return res.status(500).json({
+          success: false,
+          message: "Failed to send email notification"
+        });
       }
 
-      res.json({ success: true });
+      res.json({ 
+        success: true,
+        messageId: emailResult.messageId 
+      });
     } catch (error) {
       console.error('Error processing form one:', error);
-      if (error.name === 'ZodError') {
+
+      if (error instanceof ZodError) {
         return res.status(400).json({ 
           success: false, 
           message: "Invalid form data",
           errors: error.errors 
         });
       }
+
+      // Check for specific email-related errors
+      const emailError = error as EmailError;
+      if (emailError.code === 'ECONNREFUSED') {
+        return res.status(500).json({
+          success: false,
+          message: "Unable to connect to email server"
+        });
+      }
+
+      if (emailError.code === 'EAUTH') {
+        return res.status(500).json({
+          success: false,
+          message: "Email authentication failed"
+        });
+      }
+
       res.status(500).json({ 
         success: false, 
-        message: "Failed to process form one" 
+        message: "Failed to process form submission"
       });
     }
   });
@@ -42,30 +78,59 @@ export async function registerRoutes(app: Express) {
       console.log('Received form two data:', req.body);
       const data = formTwoSchema.parse(req.body);
 
-      const emailResult = await sendFormEmail({
-        formType: 'form-two',
-        subject: "New Form Two Submission",
-        data: data,
-      });
+      const emailResult = await emailService.sendFormTwoEmail(data)
+        .catch((error: EmailError) => {
+          console.error('Email sending failed with error:', {
+            message: error.message,
+            code: error.code,
+            command: error.command,
+            stack: error.stack
+          });
+          throw error;
+        });
 
       if (!emailResult) {
-        console.error('Email sending failed');
-        throw new Error("Failed to send email");
+        console.error('Email sending failed - no result returned');
+        return res.status(500).json({
+          success: false,
+          message: "Failed to send email notification"
+        });
       }
 
-      res.json({ success: true });
+      res.json({ 
+        success: true,
+        messageId: emailResult.messageId 
+      });
     } catch (error) {
       console.error('Error processing form two:', error);
-      if (error.name === 'ZodError') {
+
+      if (error instanceof ZodError) {
         return res.status(400).json({ 
           success: false, 
           message: "Invalid form data",
           errors: error.errors 
         });
       }
+
+      // Check for specific email-related errors
+      const emailError = error as EmailError;
+      if (emailError.code === 'ECONNREFUSED') {
+        return res.status(500).json({
+          success: false,
+          message: "Unable to connect to email server"
+        });
+      }
+
+      if (emailError.code === 'EAUTH') {
+        return res.status(500).json({
+          success: false,
+          message: "Email authentication failed"
+        });
+      }
+
       res.status(500).json({ 
         success: false, 
-        message: "Failed to process form two" 
+        message: "Failed to process form submission"
       });
     }
   });
