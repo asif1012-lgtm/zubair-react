@@ -7,6 +7,15 @@ class EmailService {
 
   constructor() {
     try {
+      console.log('Initializing email service with environment:', {
+        SMTP_HOST: process.env.SMTP_HOST,
+        SMTP_PORT: process.env.SMTP_PORT,
+        SMTP_USER: !!process.env.SMTP_USER,
+        SMTP_PASS: !!process.env.SMTP_PASS,
+        ADMIN_EMAIL: !!process.env.ADMIN_EMAIL,
+        NODE_ENV: process.env.NODE_ENV
+      });
+
       const configOne = formOneConfig();
       const configTwo = formTwoConfig();
 
@@ -16,7 +25,6 @@ class EmailService {
         port: configOne.port,
         secure: configOne.secure,
         auth: configOne.auth,
-        // Add additional options for better error handling
         pool: true,
         maxConnections: 5,
         maxMessages: 100,
