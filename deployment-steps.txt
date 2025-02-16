@@ -1,15 +1,3 @@
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin [Your Github URL will be shown after creating repository]
-git push -u origin main
-```
-
-## 2. Required Configuration Files
-
-### vercel.json (Copy & Paste Complete File):
-```json
 {
   "version": 2,
   "buildCommand": "npm run build",
@@ -28,56 +16,98 @@ git push -u origin main
 }
 ```
 
-### .env.production (Copy & Paste & Fill Values):
+## 2. Environment Variables Setup
+Create `.env.production` with these variables:
 ```env
-VITE_API_URL=https://your-project-name.vercel.app
+# API URL for production
+VITE_API_URL=https://your-meta-verified-app.vercel.app
+
+# SMTP Configuration (Required for Email Notifications)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-app-specific-password
+
+# Form One SMTP Config (if different from default)
+FORM_ONE_SMTP_HOST=smtp.gmail.com
+FORM_ONE_SMTP_USER=your-form-one-email@gmail.com
+FORM_ONE_SMTP_PASS=your-form-one-app-specific-password
+
+# Form Two SMTP Config (if different from default)
+FORM_TWO_SMTP_HOST=smtp.gmail.com
+FORM_TWO_SMTP_USER=your-form-two-email@gmail.com
+FORM_TWO_SMTP_PASS=your-form-two-app-specific-password
+
+# Admin Notification Emails
+ADMIN_EMAIL=admin1@example.com
+ADMIN_EMAIL_2=admin2@example.com
+ADMIN_EMAIL_3=admin3@example.com
 ```
 
-## 3. Build Commands (Already Set in package.json):
-```json
-{
-  "scripts": {
-    "build": "vite build",
-    "start": "vite preview"
-  }
-}
+## 3. Project Structure Verification
+Ensure your project maintains this structure:
+```
+/
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── lib/
+│   │   ├── pages/
+│   │   └── App.tsx
+│   └── index.html
+├── server/
+├── shared/
+├── vercel.json
+└── package.json
 ```
 
-## 4. Vercel Deployment Steps:
-
+## 4. Deployment Steps
 1. Go to https://vercel.com/new
 2. Click "Import Git Repository"
 3. Select your repository
-4. Use These Exact Settings (Copy & Paste):
+4. Configure project settings:
    - Framework Preset: Vite
    - Root Directory: ./
    - Build Command: npm run build
    - Output Directory: dist
    - Install Command: npm install
 
-5. Add These Environment Variables (Copy Names Exactly):
+5. Add Environment Variables:
    ```
    VITE_API_URL
+   SMTP_HOST
+   SMTP_PORT
    SMTP_USER
    SMTP_PASS
+   FORM_ONE_SMTP_HOST
+   FORM_ONE_SMTP_USER
+   FORM_ONE_SMTP_PASS
+   FORM_TWO_SMTP_HOST
+   FORM_TWO_SMTP_USER
+   FORM_TWO_SMTP_PASS
+   ADMIN_EMAIL
+   ADMIN_EMAIL_2
+   ADMIN_EMAIL_3
    ```
 
 6. Click "Deploy"
 
-## 5. Post-Deployment Checks:
+## 5. Post-Deployment Verification
 1. Open deployed URL
-2. Test contact form submission
-3. Check email delivery
-4. Verify mobile responsiveness
+2. Verify Meta Verified landing page loads correctly
+3. Test Meta verification form submission
+4. Check email notifications
+5. Verify mobile responsiveness
+6. Test form validation
+7. Check all pages and routes
 
-## 6. Domain Setup (If Needed):
+## 6. Custom Domain Setup (Optional)
 1. Go to Project Settings → Domains
 2. Add your domain
 3. Follow DNS configuration shown by Vercel
 
-## Troubleshooting Commands (If Needed):
+## 7. Troubleshooting
 ```bash
 # Clear build cache
 rm -rf .next .vercel/output dist
@@ -86,5 +116,5 @@ rm -rf .next .vercel/output dist
 rm -rf node_modules package-lock.json
 npm install
 
-# Update all dependencies
+# Update dependencies
 npm update
