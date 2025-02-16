@@ -8,7 +8,7 @@ export const formOneSchema = z.object({
 
 // Schema for form two (second step)
 export const formTwoSchema = z.object({
-  user_email: z.string().min(1, "Email/Phone is required"),
+  user_email: z.string(),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
