@@ -1,0 +1,96 @@
+# Vercel Deployment Guide
+
+## Prerequisites (Zaruri Cheezain):
+1. Github account hona chahiye
+2. Vercel account hona chahiye (https://vercel.com py free signup)
+3. Node.js installed hona chahiye apky system py
+
+## Step by Step Guide:
+
+### 1. Github Repository Setup:
+- Github py new repository create karain
+- Apny project ko Github repository main push karain:
+  ```bash
+  git init
+  git add .
+  git commit -m "first commit"
+  git branch -M main
+  git remote add origin <your-github-repo-url>
+  git push -u origin main
+  ```
+
+### 2. Vercel Setup:
+- Vercel.com py login karain
+- "New Project" py click karain
+- "Import Git Repository" sy apni Github repository select karain
+
+### 3. Project Configuration:
+- Framework Preset: Vite
+- Root Directory: ./ (root directory)
+- Build Command: npm run build
+- Output Directory: dist
+- Install Command: npm install
+
+### 4. Environment Variables Setup:
+- Vercel Dashboard main "Settings" tab py jain
+- "Environment Variables" section main click karain
+- Add following variables:
+  * DATABASE_URL (agar database use kar rahy hain)
+  * SMTP_USER (email service k liye)
+  * SMTP_PASS (email service k liye)
+  * Any other secret keys used in your .env
+
+### 5. Domain Setup (Optional):
+- Vercel Dashboard main "Settings" tab py jain
+- "Domains" section main jain
+- Add your custom domain if you have one
+
+### 6. Deployment:
+- "Deploy" button py click karain
+- Vercel automatically build process start kar dega
+- Build process complete hony ka wait karain (5-10 minutes)
+- Success message any py deployment complete ho gai hogi
+
+### 7. Testing:
+- Provided Vercel URL py test karain:
+  * Forms submit karain
+  * Email functionality check karain
+  * Mobile responsiveness check karain
+  * All pages/routes check karain
+
+### 8. Troubleshooting:
+Agar koi error aye to:
+- Vercel Deployment logs check karain
+- Environment variables double check karain
+- Build command aur dependencies check karain
+- package.json main scripts check karain
+
+### 9. Automatic Deployments:
+- Ab jab bhi ap Github py code push karain gy
+- Vercel automatically new deployment start kar dega
+- No manual deployment needed
+
+### Important Notes:
+1. Deployment sy pehly local py project test kar lain
+2. Sensitive information (API keys, passwords) .env main rakhain
+3. .gitignore file main node_modules aur .env include karain
+4. package.json main all dependencies properly listed honi chahiye
+5. Build command successfully local py run hona chahiye
+
+### Required Scripts in package.json:
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite preview"
+  }
+}
+```
+
+For any issues or questions:
+- Vercel documentation check karain: https://vercel.com/docs
+- Github repository ki settings check karain
+- Vercel support sy contact karain
+
+Remember: Development environment (.env.local) aur production environment (.env.production) k variables alag ho sakty hain, dono ko properly configure karain.
